@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+@import "tailwindcss";
+
+a.active hr {
+  display: block;
+}
+
+* {
+  font-family: "Indie Flower", cursive;
+}
+.indie-flower-regular {
+  font-family: "Indie Flower", cursive;
+  font-weight: bolder;
+  font-style: normal;
+}
+::-webkit-scrollbar{
+  display: none;
+}
+
+/* Override Toastify progress bar color */
+.Toastify__progress-bar {
+  background: #f76097 !important;
+} 
+/* Force remove all border radius from toasts */
+.Toastify__toast {
+  border-radius: 0 !important;
+}
+
+/* Remove radius from progress bar container */
+.Toastify__progress-bar {
+  border-radius: 0 !important;
+}
+@media (max-width:640px) {
+  a.active{
+    background: #f76097;
+    color: white;
+  }
+}
