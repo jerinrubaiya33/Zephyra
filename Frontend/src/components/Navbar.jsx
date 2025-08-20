@@ -127,7 +127,7 @@ const Navbar = () => {
                         <circle cx="9" cy="20" r="1.5" />
                         <circle cx="17" cy="20" r="1.5" />
                     </svg>
-                    <p className="absolute right-[-6px] bottom-[18px] min-w-[16px] h-4 px-[2px] text-center bg-black text-white rounded-full text-[20px] flex items-center justify-center">
+                    <p className="absolute right-[-6px] bottom-[24px] sm:bottom-[18px] min-w-[16px] h-4 px-[2px] text-center bg-black text-white rounded-full text-[20px] flex items-center justify-center">
                         {getCartCount()}
                     </p>
                 </Link>
