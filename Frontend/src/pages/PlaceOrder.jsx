@@ -338,7 +338,6 @@
 
 
 
-
 import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Title from '../components/Title'
@@ -415,7 +414,6 @@ const PlaceOrder = () => {
     try {
       setIsSubmitting(true)
 
-      // Build order items
       let orderItems = []
       for (const productId in cartItems) {
         const sizes = cartItems[productId]
@@ -458,8 +456,9 @@ const PlaceOrder = () => {
         customerName: `${form.firstName} ${form.lastName}`.trim()
       }
 
-      //ensure token from localStorage
       const authToken = token || localStorage.getItem("token")
+      console.log("DEBUG backendUrl:", backendUrl)
+      console.log("DEBUG token:", authToken)
 
       const response = await fetch(`${backendUrl}/api/order/place`, {
         method: 'POST',
@@ -470,19 +469,15 @@ const PlaceOrder = () => {
         body: JSON.stringify(orderData)
       })
 
-      const data = await response.json()
+      const data = await response.json().catch(() => ({}))
 
       if (response.ok) {
-        toast('˚ ༘⋆🛍️｡˚ Order placed successfully!', {
-          style: {
-            background: '#ffffff',
-            color: '#000000'
-          }
-        })
+        toast.success("🛍️ Order placed successfully!")
         setCartItems({})
         navigate('/orders')
       } else {
-        throw new Error(data.message || 'Failed to place order')
+        console.error("❌ Order API error:", response.status, data)
+        toast.error(data.message || data.error || "Failed to place order")
       }
     } catch (error) {
       toast.error(error.message)
