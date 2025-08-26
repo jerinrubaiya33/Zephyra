@@ -4,7 +4,15 @@ import userModel from '../models/userModel.js';
 // Place Order (COD) & keep only latest 16 orders
 const placeOrder = async (req, res) => {
   try {
-    const { userId, items, amount, address } = req.body;
+    const userId = req.user.id; // ✅ from token, not from body
+    const { items, amount, address } = req.body;
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: 'Order must include items' });
+    }
+    if (!amount || !address) {
+      return res.status(400).json({ error: 'Missing required order fields' });
+    }
 
     const orderData = new orderModel({
       userId,
@@ -17,51 +25,31 @@ const placeOrder = async (req, res) => {
     });
 
     await orderData.save();
-
-    // Clear the cart after placing order
     await userModel.findByIdAndUpdate(userId, { cartData: {} });
 
-    // Fetch all orders for the user, sorted by newest first
-    const allUserOrders = await orderModel
-      .find({ userId })
-      .sort({ date: -1 });
-
-    // If more than 16 orders, delete the older ones
+    // Keep only 16 latest orders
+    const allUserOrders = await orderModel.find({ userId }).sort({ date: -1 });
     if (allUserOrders.length > 16) {
       const ordersToDelete = allUserOrders.slice(16);
       const idsToDelete = ordersToDelete.map(order => order._id);
-
       await orderModel.deleteMany({ _id: { $in: idsToDelete } });
     }
 
-    res.status(201).json({ message: 'Order placed and old orders cleaned.' });
+    res.status(201).json({ message: 'Order placed successfully' });
   } catch (error) {
     console.error('placeOrder error:', error);
     res.status(500).json({ error: 'Failed to place order' });
   }
 };
 
-// Placeholder for Stripe method
-const placeOrderStrip = async (req, res) => {
-  try {
-    // Add your Stripe payment logic here
-    res.status(501).json({ message: 'Stripe payment not implemented yet' });
-  } catch (err) {
-    res.status(500).json({ error: 'Stripe order failed' });
-  }
+const placeOrderStripe = async (req, res) => {
+  res.status(501).json({ message: 'Stripe payment not implemented yet' });
 };
 
-// Placeholder for Razorpay method
 const placeOrderRazorpay = async (req, res) => {
-  try {
-    // Add your Razorpay payment logic here
-    res.status(501).json({ message: 'Razorpay payment not implemented yet' });
-  } catch (err) {
-    res.status(500).json({ error: 'Razorpay order failed' });
-  }
+  res.status(501).json({ message: 'Razorpay payment not implemented yet' });
 };
 
-// Admin: Get all orders
 const allOrders = async (req, res) => {
   try {
     const orders = await orderModel.find().sort({ date: -1 });
@@ -71,26 +59,18 @@ const allOrders = async (req, res) => {
   }
 };
 
-// User: Get orders and keep only latest 16
 const userOrders = async (req, res) => {
   try {
-    const { userId } = req.body;
-
-    // Get all orders for the user
+    const userId = req.user.id; // ✅ secure
     const orders = await orderModel.find({ userId }).sort({ date: -1 });
 
-    // Keep the latest 16 orders
     const idsToKeep = orders.slice(0, 16).map(o => o._id);
-
-    // Delete older ones
     await orderModel.deleteMany({
       userId,
       _id: { $nin: idsToKeep },
     });
 
-    // Fetch again after deletion
     const freshOrders = await orderModel.find({ userId }).sort({ date: -1 });
-
     res.json({ orders: freshOrders });
   } catch (err) {
     console.error('userOrders error:', err);
@@ -98,10 +78,12 @@ const userOrders = async (req, res) => {
   }
 };
 
-// Admin: Update order status
 const updateStatus = async (req, res) => {
   try {
     const { orderId, status } = req.body;
+    if (!orderId || !status) {
+      return res.status(400).json({ error: 'Missing fields' });
+    }
     await orderModel.findByIdAndUpdate(orderId, { status });
     res.status(200).json({ message: 'Order status updated' });
   } catch (err) {
@@ -112,7 +94,7 @@ const updateStatus = async (req, res) => {
 export {
   placeOrder,
   placeOrderRazorpay,
-  placeOrderStrip,
+  placeOrderStripe,
   allOrders,
   userOrders,
   updateStatus
