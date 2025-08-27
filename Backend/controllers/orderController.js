@@ -1,10 +1,12 @@
 import orderModel from '../models/orderModel.js';
 import userModel from '../models/userModel.js';
 
-// Place Order (COD) & keep only latest 16 orders
+// =======================
+// COD Order
+// =======================
 const placeOrder = async (req, res) => {
   try {
-    const userId = req.user.id; // ✅ from token, not from body
+    const userId = req.user.id;
     const { items, amount, address } = req.body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -42,14 +44,23 @@ const placeOrder = async (req, res) => {
   }
 };
 
+// =======================
+// Stripe Order (not implemented yet)
+// =======================
 const placeOrderStripe = async (req, res) => {
   res.status(501).json({ message: 'Stripe payment not implemented yet' });
 };
 
+// =======================
+// Razorpay Order (not implemented yet)
+// =======================
 const placeOrderRazorpay = async (req, res) => {
   res.status(501).json({ message: 'Razorpay payment not implemented yet' });
 };
 
+// =======================
+// Admin: All orders
+// =======================
 const allOrders = async (req, res) => {
   try {
     const orders = await orderModel.find().sort({ date: -1 });
@@ -59,9 +70,12 @@ const allOrders = async (req, res) => {
   }
 };
 
+// =======================
+// User: Own orders
+// =======================
 const userOrders = async (req, res) => {
   try {
-    const userId = req.user.id; // ✅ secure
+    const userId = req.user.id;
     const orders = await orderModel.find({ userId }).sort({ date: -1 });
 
     const idsToKeep = orders.slice(0, 16).map(o => o._id);
@@ -78,6 +92,9 @@ const userOrders = async (req, res) => {
   }
 };
 
+// =======================
+// Admin: Update order status
+// =======================
 const updateStatus = async (req, res) => {
   try {
     const { orderId, status } = req.body;
@@ -91,11 +108,14 @@ const updateStatus = async (req, res) => {
   }
 };
 
+// =======================
+// Export all functions
+// =======================
 export {
   placeOrder,
+  placeOrderStripe,
   placeOrderRazorpay,
-  placeOrderStripe,   // ✅ correct export
   allOrders,
   userOrders,
-  updateStatus
+  updateStatus,
 };
