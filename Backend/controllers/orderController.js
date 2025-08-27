@@ -68,7 +68,7 @@ const allOrders = async (req, res) => {
     const orders = await orderModel.find().sort({ date: -1 });
     res.status(200).json({ orders });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch orders' });
+    res.status(500).json({ error: 'Log in or sign up to order.' });
   }
 };
 
