@@ -4,7 +4,7 @@ const authUser = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ success: false, message: 'No token provided' });
+    return res.status(401).json({ success: false, message: 'Log in or sign up to order.' });
   }
 
   const token = authHeader.split(' ')[1];
@@ -15,7 +15,7 @@ const authUser = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("Auth Error:", error.message);
-    res.status(401).json({ success: false, message: 'Invalid or expired token' });
+    res.status(401).json({ success: false, message: 'Log in or sign up to order.' });
   }
 };
 
