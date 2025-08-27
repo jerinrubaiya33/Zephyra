@@ -1,8 +1,8 @@
 import express from 'express';
 import {
   placeOrder,
+  placeOrderStripe,
   placeOrderRazorpay,
-  placeOrderStripe,   // ✅ fixed spelling
   allOrders,
   userOrders,
   updateStatus
@@ -12,18 +12,15 @@ import authUser from '../middleware/auth.js';
 
 const orderRouter = express.Router();
 
-// Admin features
+// Admin Routes
 orderRouter.post('/list', adminAuth, allOrders);
-
-// This is the route to update order status (admin only)
 orderRouter.post('/status', adminAuth, updateStatus);
 
-// Payment features
+// Payment Routes
 orderRouter.post('/place', authUser, placeOrder);
-orderRouter.post('/stripe', authUser, placeOrderStripe);   // ✅ fixed spelling
+orderRouter.post('/stripe', authUser, placeOrderStripe);
 orderRouter.post('/razorpay', authUser, placeOrderRazorpay);
-
-// User features
+// User Routes
 orderRouter.post('/userorders', authUser, userOrders);
 
 export default orderRouter;
