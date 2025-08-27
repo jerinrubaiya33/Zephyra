@@ -1,20 +1,11 @@
+
 import orderModel from '../models/orderModel.js';
 import userModel from '../models/userModel.js';
 
-// =======================
-// COD Order
-// =======================
+// Place Order (COD) & keep only latest 16 orders
 const placeOrder = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const { items, amount, address } = req.body;
-
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ error: 'Order must include items' });
-    }
-    if (!amount || !address) {
-      return res.status(400).json({ error: 'Missing required order fields' });
-    }
+    const { userId, items, amount, address } = req.body;
 
     const orderData = new orderModel({
       userId,
@@ -27,40 +18,51 @@ const placeOrder = async (req, res) => {
     });
 
     await orderData.save();
+
+    // Clear the cart after placing order
     await userModel.findByIdAndUpdate(userId, { cartData: {} });
 
-    // Keep only 16 latest orders
-    const allUserOrders = await orderModel.find({ userId }).sort({ date: -1 });
+    // Fetch all orders for the user, sorted by newest first
+    const allUserOrders = await orderModel
+      .find({ userId })
+      .sort({ date: -1 });
+
+    // If more than 16 orders, delete the older ones
     if (allUserOrders.length > 16) {
       const ordersToDelete = allUserOrders.slice(16);
       const idsToDelete = ordersToDelete.map(order => order._id);
+
       await orderModel.deleteMany({ _id: { $in: idsToDelete } });
     }
 
-    res.status(201).json({ message: 'Order placed successfully' });
+    res.status(201).json({ message: 'Order placed and old orders cleaned.' });
   } catch (error) {
     console.error('placeOrder error:', error);
     res.status(500).json({ error: 'Failed to place order' });
   }
 };
 
-// =======================
-// Stripe Order (not implemented yet)
-// =======================
-const placeOrderStripe = async (req, res) => {
-  res.status(501).json({ message: 'Stripe payment not implemented yet' });
+// Placeholder for Stripe method
+const placeOrderStrip = async (req, res) => {
+  try {
+    // Add your Stripe payment logic here
+    res.status(501).json({ message: 'Stripe payment not implemented yet' });
+  } catch (err) {
+    res.status(500).json({ error: 'Stripe order failed' });
+  }
 };
 
-// =======================
-// Razorpay Order (not implemented yet)
-// =======================
+// Placeholder for Razorpay method
 const placeOrderRazorpay = async (req, res) => {
-  res.status(501).json({ message: 'Razorpay payment not implemented yet' });
+  try {
+    // Add your Razorpay payment logic here
+    res.status(501).json({ message: 'Razorpay payment not implemented yet' });
+  } catch (err) {
+    res.status(500).json({ error: 'Razorpay order failed' });
+  }
 };
 
-// =======================
-// Admin: All orders
-// =======================
+// Admin: Get all orders
 const allOrders = async (req, res) => {
   try {
     const orders = await orderModel.find().sort({ date: -1 });
@@ -70,21 +72,26 @@ const allOrders = async (req, res) => {
   }
 };
 
-// =======================
-// User: Own orders
-// =======================
+// User: Get orders and keep only latest 16
 const userOrders = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const { userId } = req.body;
+
+    // Get all orders for the user
     const orders = await orderModel.find({ userId }).sort({ date: -1 });
 
+    // Keep the latest 16 orders
     const idsToKeep = orders.slice(0, 16).map(o => o._id);
+
+    // Delete older ones
     await orderModel.deleteMany({
       userId,
       _id: { $nin: idsToKeep },
     });
 
+    // Fetch again after deletion
     const freshOrders = await orderModel.find({ userId }).sort({ date: -1 });
+
     res.json({ orders: freshOrders });
   } catch (err) {
     console.error('userOrders error:', err);
@@ -92,15 +99,10 @@ const userOrders = async (req, res) => {
   }
 };
 
-// =======================
 // Admin: Update order status
-// =======================
 const updateStatus = async (req, res) => {
   try {
     const { orderId, status } = req.body;
-    if (!orderId || !status) {
-      return res.status(400).json({ error: 'Missing fields' });
-    }
     await orderModel.findByIdAndUpdate(orderId, { status });
     res.status(200).json({ message: 'Order status updated' });
   } catch (err) {
@@ -108,14 +110,11 @@ const updateStatus = async (req, res) => {
   }
 };
 
-// =======================
-// Export all functions
-// =======================
 export {
   placeOrder,
-  placeOrderStripe,
   placeOrderRazorpay,
+  placeOrderStrip,
   allOrders,
   userOrders,
-  updateStatus,
+  updateStatus
 };
