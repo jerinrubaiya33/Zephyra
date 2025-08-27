@@ -94,7 +94,7 @@ const updateStatus = async (req, res) => {
 export {
   placeOrder,
   placeOrderRazorpay,
-  placeOrderStripe,
+  placeOrderStripe,   // ✅ correct export
   allOrders,
   userOrders,
   updateStatus
