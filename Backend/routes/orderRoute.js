@@ -1,8 +1,8 @@
 import express from 'express';
 import {
   placeOrder,
-  placeOrderStripe,
   placeOrderRazorpay,
+  placeOrderStrip,
   allOrders,
   userOrders,
   updateStatus
@@ -12,15 +12,18 @@ import authUser from '../middleware/auth.js';
 
 const orderRouter = express.Router();
 
-// Admin Routes
+// Admin features
 orderRouter.post('/list', adminAuth, allOrders);
+
+// This is the route to update order status (admin only)
 orderRouter.post('/status', adminAuth, updateStatus);
 
-// Payment Routes
+// Payment features
 orderRouter.post('/place', authUser, placeOrder);
-orderRouter.post('/stripe', authUser, placeOrderStripe);
+orderRouter.post('/stripe', authUser, placeOrderStrip);
 orderRouter.post('/razorpay', authUser, placeOrderRazorpay);
-// User Routes
+
+// User features
 orderRouter.post('/userorders', authUser, userOrders);
 
 export default orderRouter;
