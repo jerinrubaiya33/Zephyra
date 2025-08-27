@@ -2,7 +2,7 @@ import express from 'express';
 import {
   placeOrder,
   placeOrderRazorpay,
-  placeOrderStrip,
+  placeOrderStripe,   // ✅ fixed spelling
   allOrders,
   userOrders,
   updateStatus
@@ -20,7 +20,7 @@ orderRouter.post('/status', adminAuth, updateStatus);
 
 // Payment features
 orderRouter.post('/place', authUser, placeOrder);
-orderRouter.post('/stripe', authUser, placeOrderStrip);
+orderRouter.post('/stripe', authUser, placeOrderStripe);   // ✅ fixed spelling
 orderRouter.post('/razorpay', authUser, placeOrderRazorpay);
 
 // User features
