@@ -1,16 +1,20 @@
-import express from 'express';
-import cors from 'cors';
-import 'dotenv/config';
-import connectDB from './config/mongodb.js';
-import connectCloudinary from './config/cloudinary.js';
-import userRouter from './routes/userRoute.js';
-import productRouter from './routes/productRoute.js';
-import cartRouter from './routes/cartRoute.js';
-import orderRouter from './routes/orderRoute.js';
+import express from "express";
+import cors from "cors";
+import "dotenv/config";
 
+import connectDB from "./config/mongodb.js";
+import connectCloudinary from "./config/cloudinary.js";
+
+import userRouter from "./routes/userRoute.js";
+import productRouter from "./routes/productRoute.js";
+import cartRouter from "./routes/cartRoute.js";
+import orderRouter from "./routes/orderRoute.js";
+
+// Initialize app
 const app = express();
 const port = process.env.PORT || 4000;
 
+// Connect to DBs
 connectDB();
 connectCloudinary();
 
@@ -18,23 +22,42 @@ connectCloudinary();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Enable CORS for frontend (localhost + Vercel)
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://zephyra-frontend.vercel.app/"
-  ],
-  credentials: true
-}));
+// Enable CORS
+const allowedOrigins = [
+  "http://localhost:5173",                 // local frontend (vite)
+  "https://zephyra-frontend.vercel.app"    // deployed frontend
+];
 
-// API endpoints
-app.use('/api/user', userRouter);
-app.use('/api/product', productRouter);
-app.use('/api/cart', cartRouter);
-app.use('/api/order', orderRouter);
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // allow requests with no origin (like mobile apps or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
-app.get('/', (req, res) => {
+// API routes
+app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
+
+// Root test route
+app.get("/", (req, res) => {
   res.send("API Working");
 });
 
-app.listen(port, () => console.log('Server started on port : ' + port));
+// Start server (only if not running on Vercel serverless)
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => console.log("Server running on port " + port));
+}
+
+export default app; 
