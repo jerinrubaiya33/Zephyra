@@ -21,8 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 //Enable CORS so my frontend (even from another domain) can make request to this server
 
 app.use(cors({
-  // origin: ["http://localhost:5173", "https://yourfrontend.vercel.app"],
-  // credentials: true
+  origin: [
+    "http://localhost:5173",               // for local dev
+    "https://zephyra-frontend.vercel.app"  // your deployed frontend
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 
 
