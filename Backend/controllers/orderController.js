@@ -38,7 +38,7 @@ const placeOrder = async (req, res) => {
     res.status(201).json({ message: 'Order placed and old orders cleaned.' });
   } catch (error) {
     console.error('placeOrder error:', error);
-    res.status(500).json({ error: 'Failed to place order' });
+    res.status(500).json({ error: 'Log in or sign up to order.' });
   }
 };
 
