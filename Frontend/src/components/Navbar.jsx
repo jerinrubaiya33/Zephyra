@@ -30,45 +30,41 @@ const Navbar = () => {
     }, [showProfileMenu]);
 
     return (
-
-        <div className="">
+        <div className="w-full">
             {/* TOP SALE BAR */}
-            <div className="w-screen bg-[#f76097] text-white text-center py-0 top-0  z-50 -ml-27.5">
-                <p className="text-1xl font-extrabold tracking-[0.3em] uppercase">
-                    Your Style, Your Sale – 20% OFF Everything. Uncover your next favorite!
+            <div className="absolute top-0 left-0 py-0.5 right-0 bg-[#f76097] text-center z-50">
+                <p className="text-xs sm:text-sm md:text-[18px] font-extrabold uppercase tracking-[0.3em]  leading-snug text-white">
+                    Your Style, Your Sale – <span className="font-bold">20% OFF</span> Everything. Uncover your next favorite!
                 </p>
             </div>
+
             {/* NAVBAR */}
-            <div className="flex items-center justify-between py-5 font-medium relative px-4 sm:px-8">
+            <div className="flex items-center justify-between py-5 font-medium relative px-4 sm:px-8 -bottom-6">
                 <Link to="/">
-                    <img
-                        src={assets.logo}
-                        alt="Logo"
-                        className="w-[330px] -mt-20 sm:-mt-24 -ml-10"
-                    />
+                    <img src={assets.logo} alt="Logo" className="w-[330px] -mt-16 sm:-mt-20 -ml-16" />
                 </Link>
 
                 {/* NAV LINKS */}
-                <ul className="hidden sm:flex gap-5 text-base mr-30 font-semibold">
+                <ul className="hidden sm:flex gap-5 text-base mr-35 font-semibold">
                     <NavLink to='/' className="flex flex-col items-center gap-1">
-                        <p className="ml-auto -mt-14 text-black">HOME</p>
+                        <p className="ml-auto -mt-13 text-black">HOME</p>
                     </NavLink>
                     <NavLink to='/collection' className="flex flex-col items-center gap-1">
-                        <p className="ml-auto -mt-14 text-black">COLLECTION</p>
+                        <p className="ml-auto -mt-13 text-black">COLLECTION</p>
                         <hr className="w-2/4 border-none h-[1.5px] bg-[#f76097] hidden" />
                     </NavLink>
                     <NavLink to='/about' className="flex flex-col items-center gap-1">
-                        <p className="ml-auto -mt-14 text-black">ABOUT</p>
+                        <p className="ml-auto -mt-13 text-black">ABOUT</p>
                         <hr className="w-2/4 border-none h-[1.5px] bg-[#f76097] hidden" />
                     </NavLink>
                     <NavLink to='/contact' className="flex flex-col items-center gap-1">
-                        <p className="ml-auto -mt-14 text-black">CONTACT</p>
+                        <p className="ml-auto -mt-13 text-black">CONTACT</p>
                         <hr className="w-2/4 border-none h-[1.5px] bg-[#f76097] hidden" />
                     </NavLink>
                 </ul>
 
                 {/* ICONS */}
-                <div className='flex items-center gap-6'>
+                <div className='flex items-center gap-6 sm:mt-0 mt-5 '>
                     {/* SEARCH ICON */}
                     <svg
                         onClick={() => {
@@ -156,17 +152,12 @@ const Navbar = () => {
                 </div>
 
                 {/* MOBILE SIDEBAR */}
-                <div
-                    className={`fixed inset-0 z-50 bg-white transition-all duration-300 ease-in-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}
-                >
-                    <div className="flex flex-col text-black">
-                        <div
-                            onClick={() => setVisible(false)}
-                            className="flex items-center gap-4 p-3 cursor-pointer"
-                        >
+                <div className={`fixed top-0 right-0 h-full w-3/4 max-w-sm bg-white z-50 shadow-lg transform transition-transform duration-300 ease-in-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}>
+                    <div className="flex flex-col h-full">
+                        <div onClick={() => setVisible(false)} className="flex items-center gap-4 p-5 cursor-pointer border-b">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="w-8 h-8 text-black cursor-pointer"
+                                className="w-8 h-8 text-black"
                                 fill="none"
                                 stroke="#000000"
                                 strokeWidth="1"
@@ -174,12 +165,39 @@ const Navbar = () => {
                             >
                                 <path d="M15 18l-6-6 6-6" />
                             </svg>
-                            <p className="mt-0 mr-11.5 text-[18px] font-semibold">Back</p>
+                            <p className="text-lg font-semibold">Close</p>
                         </div>
-                        <NavLink onClick={() => setVisible(false)} className='py-2 pl-12 border font-semibold' to='/'>HOME</NavLink>
-                        <NavLink onClick={() => setVisible(false)} className='py-2 pl-12 border font-semibold' to='/collection'>COLLECTION</NavLink>
-                        <NavLink onClick={() => setVisible(false)} className='py-2 pl-12 border font-semibold' to='/about'>ABOUT</NavLink>
-                        <NavLink onClick={() => setVisible(false)} className='py-2 pl-12 border font-semibold' to='/contact'>CONTACT</NavLink>
+
+                        <div className="flex flex-col flex-grow py-4">
+                            <NavLink
+                                onClick={() => setVisible(false)}
+                                className='py-4 px-8 text-lg font-semibold hover:bg-gray-100'
+                                to='/'
+                            >
+                                HOME
+                            </NavLink>
+                            <NavLink
+                                onClick={() => setVisible(false)}
+                                className='py-4 px-8 text-lg font-semibold hover:bg-gray-100'
+                                to='/collection'
+                            >
+                                COLLECTION
+                            </NavLink>
+                            <NavLink
+                                onClick={() => setVisible(false)}
+                                className='py-4 px-8 text-lg font-semibold hover:bg-gray-100'
+                                to='/about'
+                            >
+                                ABOUT
+                            </NavLink>
+                            <NavLink
+                                onClick={() => setVisible(false)}
+                                className='py-4 px-8 text-lg font-semibold hover:bg-gray-100'
+                                to='/contact'
+                            >
+                                CONTACT
+                            </NavLink>
+                        </div>
                     </div>
                 </div>
             </div>
