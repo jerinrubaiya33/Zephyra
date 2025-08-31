@@ -5,7 +5,7 @@ import '../index.css';
 
 const Hero = ({ scrollToBestSeller, scrollToLatest }) => {
     return (
-        <div className='flex flex-col sm:flex-row border border-[#ffc6db] -mt-17'>
+        <div className='flex flex-col sm:flex-row border border-[#ffc6db] -mt-14'>
 
             {/* HERO LEFT SIDE */}
             <div className='w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0'>
