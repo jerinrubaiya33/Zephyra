@@ -14,7 +14,7 @@ const SearchBar = () => {
   }, [location]);
 
   return showSearch && visible ? (
-    <div className='border-t border-b text-center -mt-22 mb-20 relative z-40 border-[#ffa1c4] bg-white'>
+    <div className='border-t border-b text-center -mt-22 mb-20 relative z-40 border-[#fff2f8] bg-white'>
       <div className='bg-white inline-flex items-center justify-between border border-[#ffa1c4] px-5 py-2 my-2 mx-3 rounded-full w-3/4 sm:w-1/2 shadow-sm focus-within:shadow-md transition-shadow'>
         <input
           value={search}
