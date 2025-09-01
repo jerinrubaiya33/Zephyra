@@ -14,7 +14,7 @@ const BestSeller = () => {
     }, [products]);
 
     return (
-        <div className='my-10'>
+        <section id="BestSeller" className='my-10'>
             <div className='text-center text-3xl py-8'>
                 <Title text1={'BEST'} text2={'SELLERS'} />
                 <p className='w-2/4 m-auto text-sm sm:text-base md:text-lg text-black'>
@@ -36,8 +36,7 @@ const BestSeller = () => {
                     ))
                 }
             </div>
-
-        </div>
+        </section>
     )
 }
 
