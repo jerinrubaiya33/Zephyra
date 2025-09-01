@@ -62,7 +62,7 @@ const Collection = () => {
   }, [products]);
 
   return (
-    <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t border-[#ffd7d7] -mt-20 sm:-mt-28 -ml-2'>
+    <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t border-[#ffd7d7] -mt-16 sm:-mt-20 -ml-2'>
       <div className='min-w-60 -ml-3 sm:mt-0 -mt-8 z-30 relative'>
         <button
           type="button"
