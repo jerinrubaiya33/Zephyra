@@ -174,7 +174,7 @@ const Product = () => {
   }
 
   return (
-    <div className='border-t-1 border-[#ffd7d7] -mt-20 sm:-mt-28 pt-10 transition-opacity ease-in duration-500 opacity-100'>
+    <div className='border-t-1 border-[#ffd7d7] sm:-mt-20 -mt-16 pt-10 transition-opacity ease-in duration-500 opacity-100'>
       {/* Product Data */}
       <div className='flex gap-12 sm:gap-12 flex-col sm:flex-row'>
         {/* Product Images */}
