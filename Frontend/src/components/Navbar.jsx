@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { assets } from '../assets/assets'
-import { Link as RouterLink, NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { Link as ScrollLink } from 'react-scroll'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext'
 
 const Navbar = () => {
@@ -21,14 +20,14 @@ const Navbar = () => {
 
     // Auto-hide profile menu after 2 seconds
     useEffect(() => {
-        let timer
+        let timer;
         if (showProfileMenu) {
             timer = setTimeout(() => {
-                setShowProfileMenu(false)
-            }, 2000)
+                setShowProfileMenu(false);
+            }, 2000);
         }
-        return () => clearTimeout(timer)
-    }, [showProfileMenu])
+        return () => clearTimeout(timer);
+    }, [showProfileMenu]);
 
     return (
         <div className="w-full">
@@ -41,23 +40,15 @@ const Navbar = () => {
 
             {/* NAVBAR */}
             <div className="flex items-center justify-between py-5 font-medium relative px-4 sm:px-8 -bottom-6">
-                <RouterLink to="/">
+                <Link to="/">
                     <img src={assets.logo} alt="Logo" className="w-[330px] -mt-16 sm:-mt-20 -ml-16" />
-                </RouterLink>
+                </Link>
 
                 {/* NAV LINKS */}
                 <ul className="hidden sm:flex gap-5 text-base mr-35 font-semibold">
-                    {/* Smooth scroll to BestSeller section */}
-                    <ScrollLink
-                        to="BestSeller"
-                        smooth={true}
-                        duration={500}
-                        offset={-80} // adjust for navbar height
-                        className="flex flex-col items-center gap-1 cursor-pointer"
-                    >
-                        <p className="ml-auto -mt-13 text-black">BEST SELLERS</p>
-                    </ScrollLink>
-
+                    <NavLink to='/' className="flex flex-col items-center gap-1">
+                        <p className="ml-auto -mt-13 text-black">HOME</p>
+                    </NavLink>
                     <NavLink to='/collection' className="flex flex-col items-center gap-1">
                         <p className="ml-auto -mt-13 text-black">COLLECTION</p>
                         <hr className="w-2/4 border-none h-[1.5px] bg-[#f76097] hidden" />
@@ -95,7 +86,7 @@ const Navbar = () => {
 
                     {/* PROFILE ICON */}
                     <div className="relative">
-                        <RouterLink to='/login'>
+                        <Link to='/login'>
                             <svg
                                 onClick={() => setShowProfileMenu(prev => !prev)}
                                 xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +99,7 @@ const Navbar = () => {
                                 <circle cx="12" cy="8" r="4" />
                                 <path d="M4 20c0-4 8-4 8-4s8 0 8 4v0a4 4 0 01-4 4H8a4 4 0 01-4-4z" />
                             </svg>
-                        </RouterLink>
+                        </Link>
 
                         {/* DROPDOWN */}
                         {showProfileMenu && (
@@ -125,7 +116,7 @@ const Navbar = () => {
                     </div>
 
                     {/* CART ICON */}
-                    <RouterLink to="/cart" className="relative">
+                    <Link to="/cart" className="relative">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-8 h-8 -mt-[62px] -ml-4 text-black cursor-pointer"
@@ -142,7 +133,7 @@ const Navbar = () => {
                         <p className="absolute right-[-6px] bottom-[18px] min-w-[16px] h-4 px-[2px] text-center bg-black text-white rounded-full text-[20px] flex items-center justify-center">
                             {getCartCount()}
                         </p>
-                    </RouterLink>
+                    </Link>
 
                     {/* MOBILE MENU ICON */}
                     <svg
