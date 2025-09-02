@@ -34,7 +34,7 @@ const Navbar = () => {
             {/* TOP SALE BAR */}
             <div className="absolute top-0 left-0 py-0.5 right-0 bg-[#f76097] text-center z-50">
                 <p className="text-xs sm:text-sm md:text-[18px] font-extrabold uppercase tracking-[0.3em]  leading-snug text-white">
-                    Your Style, Your Sale – <span className="font-bold">20% OFF</span> Everything. Uncover your next favorite!
+                    Your Style, Your Sale – <span className="font-bold">WORLDWIDE SHIPPING</span> Everything. Uncover your next favorite!
                 </p>
             </div>
 
