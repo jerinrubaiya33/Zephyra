@@ -29,15 +29,20 @@ const Navbar = () => {
     return (
         <div className="w-full">
             {/* TOP SALE BAR */}
-            <div className="absolute top-0 left-0 right-0 bg-[#f76097] z-50 ">
+            <div className="absolute top-0 left-0 right-0 bg-[#f76097] z-50">
                 <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-1">
-                    {/* TEXT LEFT */}
-                    <p className="text-xs sm:text-sm md:text-[18px] font-extrabold uppercase tracking-[0.3em] text-white ml-18">
+                    {/* Desktop text */}
+                    <p className="hidden sm:block text-xs sm:text-sm md:text-[18px] font-extrabold uppercase tracking-[0.3em] text-white ml-18">
                         Your Style, Your Sale – <span className="font-bold">Uncover your next favorite!</span>
                     </p>
 
+                    {/* Mobile text */}
+                    <p className="block sm:hidden text-[18px] text-white font-semibold text-center w-full">
+                        Uncover your next favorite!
+                    </p>
+
                     {/* ICONS RIGHT */}
-                    <div className="flex items-center gap-4 text-white mr-24">
+                    <div className="flex items-center gap-3 text-white sm:mr-24 mr-4">
                         {/* PROFILE ICON */}
                         <div className="relative">
                             <svg
@@ -67,10 +72,10 @@ const Navbar = () => {
                         </div>
 
                         {/* WISHLIST ICON */}
-                        <Link to="/wishlist" className="relative  mt-1.5">
+                        <Link to="/wishlist" className="relative mt-1.5">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="w-7 h-7 cursor-pointer "
+                                className="w-7 h-7 cursor-pointer"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="white"
@@ -114,9 +119,10 @@ const Navbar = () => {
             </div>
 
             {/* NAVBAR MAIN ROW */}
-            <div className="relative max-w-7xl mx-auto flex items-center justify-between py-5 font-medium px-4 sm:px-8 -mb-18 -mt-5">
+            <div className="relative max-w-7xl mx-auto flex items-center justify-between py-4 font-medium px-4 sm:px-8 -mt-4">
                 {/* LEFT: SEARCH */}
                 <div className="flex items-center gap-4 flex-1">
+                    {/* Desktop search */}
                     <input
                         type="text"
                         onFocus={() => {
@@ -128,10 +134,30 @@ const Navbar = () => {
                         placeholder="Search products..."
                         className="hidden sm:block w-48 md:w-64 border border-[#ffc6db] rounded-full px-4 py-1.5 focus:outline-none"
                     />
+
+                    {/* Mobile search icon */}
+                    <svg
+                        onClick={() => {
+                            setShowSearch(true)
+                            if (!location.pathname.includes('/collection')) {
+                                navigate('/collection')
+                            }
+                        }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="sm:hidden w-6 h-6 cursor-pointer text-black"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                    >
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+
                 </div>
 
-                {/* CENTER: LOGO EXACTLY CENTER */}
-                <Link to="/" className="flex-shrink-0 mx-auto mr-40 -mt-2">
+                {/* CENTER: LOGO */}
+                <Link to="/" className="flex-shrink-0 mx-auto sm:mr-40">
                     <img src={assets.logo} alt="Logo" className="w-[180px] sm:w-[220px]" />
                 </Link>
 
@@ -157,20 +183,19 @@ const Navbar = () => {
                     </NavLink>
                 </ul>
 
-
                 {/* MOBILE MENU ICON */}
                 <svg
                     onClick={() => setVisible(true)}
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8 text-black cursor-pointer sm:hidden"
+                    className="w-7 h-7 text-black cursor-pointer sm:hidden ml-auto"
                     fill="none"
                     stroke="#000000"
-                    strokeWidth="1"
+                    strokeWidth="2"
                     viewBox="0 0 24 24"
                 >
-                    <line x1="0" y1="6" x2="20" y2="6" />
-                    <line x1="4" y1="12" x2="20" y2="12" />
-                    <line x1="8" y1="18" x2="20" y2="18" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
                 </svg>
             </div>
 
@@ -178,40 +203,30 @@ const Navbar = () => {
             <div
                 className={`fixed top-0 right-0 h-full w-3/4 max-w-sm bg-white z-50 shadow-lg transform transition-transform duration-300 ease-in-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}
             >
-                <div className="flex flex-col h-full">
-                    <div
-                        onClick={() => setVisible(false)}
-                        className="flex items-center gap-4 p-5 cursor-pointer border-b"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-8 h-8 text-black"
-                            fill="none"
-                            stroke="#000000"
-                            strokeWidth="1"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M15 18l-6-6 6-6" />
-                        </svg>
-                        <p className="text-lg font-semibold">Close</p>
-                    </div>
+                {/* Close button */}
+                <button
+                    onClick={() => setVisible(false)}
+                    className="absolute top-4 right-4 text-black text-2xl"
+                >
+                    ✕
+                </button>
 
-                    <div className="flex flex-col flex-grow py-4">
-                        {['/collection', '/about', '/contact'].map((path, idx) => {
-                            const names = ['COLLECTION', 'ABOUT', 'CONTACT']
-                            return (
-                                <NavLink
-                                    key={path}
-                                    onClick={() => setVisible(false)}
-                                    className="py-4 px-8 text-lg font-semibold hover:bg-gray-100"
-                                    to={path}
-                                >
-                                    {names[idx]}
-                                </NavLink>
-                            )
-                        })}
-                    </div>
+                <div className="flex flex-col h-full mt-12">
+                    {['/collection', '/about', '/contact'].map((path, idx) => {
+                        const names = ['COLLECTION', 'ABOUT', 'CONTACT']
+                        return (
+                            <NavLink
+                                key={path}
+                                onClick={() => setVisible(false)}
+                                className="py-2 px-4 text-lg font-semibold hover:bg-gray-100 border-b border-[#f76097]"
+                                to={path}
+                            >
+                                {names[idx]}
+                            </NavLink>
+                        )
+                    })}
                 </div>
+
             </div>
         </div>
     )
