@@ -72,7 +72,7 @@ const Login = () => {
   }, [token]);
 
   return (
-    <div className='pt-10 border-t border-[#ffd7d7] -mt-18 sm:-mt-28 -ml-2'>
+    <div className='pt-10 border-t border-[#ffd7d7] sm:-mt-20 -mt-16 -ml-2'>
       <form onSubmit={onSubmitHandler} className='flex flex-col items-center w-[90%] sm:max-w-96 m-auto -mt-10 gap-4 text-black'>
         <div className='inline-flex items-center gap-2 mb-2 mt-10'>
           <p className='text-3xl'>{currentState}</p>

@@ -56,7 +56,7 @@ const Cart = () => {
   };
 
   return (
-    <div className='pt-28 sm:pt-10 border-t border-[#ffd7d7] sm:-mt-26 -mt-20'>
+    <div className='pt-28 sm:pt-10 border-t border-[#ffd7d7] sm:-mt-20 -mt-16'>
       <div className='text-2xl mb-4 sm:mb-0 -mt-20 sm:-mt-2'>
         <Title text1={'YOUR'} text2={'CART'} />
         <hr className="border-[#ffd7d7] sm:border-[#ffd7d7] sm:p-2 mb-2" />

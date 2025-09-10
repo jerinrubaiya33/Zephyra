@@ -1,14 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { assets } from '../assets/assets'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext'
-import { useEffect } from 'react';
-
 
 const Navbar = () => {
     const [visible, setVisible] = useState(false)
     const [showProfileMenu, setShowProfileMenu] = useState(false)
-    const { setShowSearch, getCartCount, token, setToken, setCartItems } = useContext(ShopContext)
+    const { setShowSearch, getCartCount, getWishlistCount, setToken, setCartItems } = useContext(ShopContext)
+
+    const navigate = useNavigate()
+    const location = useLocation()
 
     const logout = () => {
         navigate('/login')
@@ -17,126 +18,151 @@ const Navbar = () => {
         setCartItems({})
     }
 
-    const location = useLocation()
-    const navigate = useNavigate()
-
-    // Auto-hide profile menu after 2 seconds
     useEffect(() => {
-        let timer;
+        let timer
         if (showProfileMenu) {
-            timer = setTimeout(() => {
-                setShowProfileMenu(false);
-            }, 2000);
+            timer = setTimeout(() => setShowProfileMenu(false), 2000)
         }
-        return () => clearTimeout(timer);
-    }, [showProfileMenu]);
+        return () => clearTimeout(timer)
+    }, [showProfileMenu])
 
     return (
-        <div className="flex items-center justify-between py-5 font-medium relative">
-            <Link to="/">
-                <img
-                    src={assets.logo}
-                    alt="Logo"
-                    className="w-[330px] -mt-20 sm:-mt-24 -ml-10"
-                />
-            </Link>
-            {/* NAV LINKS */}
-            <ul className="hidden sm:flex gap-5 text-base mr-30 font-semibold ">
-                <NavLink to='/' className="flex flex-col items-center gap-1">
-                    <p className="ml-auto -mt-14 text-black">HOME</p>
-                    <hr className="w-3/4 border-none h-[1.5px] bg-[# ] hidden" />
-                </NavLink>
-                <NavLink to='/collection' className="flex flex-col items-center gap-1">
-                    <p className="ml-auto -mt-14 text-black">COLLECTION</p>
-                    <hr className="w-2/4 border-none h-[1.5px] bg-[#f76097] hidden" />
-                </NavLink>
-                <NavLink to='/about' className="flex flex-col items-center gap-1">
-                    <p className="ml-auto -mt-14 text-black">ABOUT</p>
-                    <hr className="w-2/4 border-none h-[1.5px] bg-[#f76097] hidden" />
-                </NavLink>
-                <NavLink to='/contact' className="flex flex-col items-center gap-1">
-                    <p className="ml-auto -mt-14 text-black">CONTACT</p>
-                    <hr className="w-2/4 border-none h-[1.5px] bg-[#f76097] hidden" />
-                </NavLink>
-            </ul>
+        <div className="w-full">
+            {/* TOP SALE BAR */}
+            <div className="absolute top-0 left-0 right-0 bg-[#f76097] z-50 ">
+                <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-1">
+                    {/* TEXT LEFT */}
+                    <p className="text-xs sm:text-sm md:text-[18px] font-extrabold uppercase tracking-[0.3em] text-white ml-18">
+                        Your Style, Your Sale – <span className="font-bold">Uncover your next favorite!</span>
+                    </p>
 
-            <div className='flex items-center gap-6'>
+                    {/* ICONS RIGHT */}
+                    <div className="flex items-center gap-4 text-white mr-24">
+                        {/* PROFILE ICON */}
+                        <div className="relative">
+                            <svg
+                                onClick={() => setShowProfileMenu(prev => !prev)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-7 h-7 cursor-pointer"
+                                fill="none"
+                                stroke="white"
+                                strokeWidth="1.5"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle cx="12" cy="8" r="4" />
+                                <path d="M4 20c0-4 8-4 8-4s8 0 8 4v0a4 4 0 01-4 4H8a4 4 0 01-4-4z" />
+                            </svg>
 
-                {/* SEARCH ICON */}
-                <svg
-                    onClick={() => {
-                        setShowSearch(true)
-                        if (!location.pathname.includes('/collection')) {
-                            navigate('/collection')
-                        }
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-7 h-7 text-black cursor-pointer ml-[-26px] -mt-20 -sm:mt-290"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    viewBox="0 0 24 24"
-                >
-                    <circle cx="11" cy="11" r="7" />
-                    <line x1="16.65" y1="16.65" x2="21" y2="21" />
-                </svg>
-
-                {/* PROFILE ICON */}
-                <div className="relative">
-                    <Link to='/login'>
-                        <svg
-                            onClick={() => setShowProfileMenu(prev => !prev)}
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-7 h-7 -mt-14 text-black cursor-pointer -ml-3"
-                            fill="none"
-                            stroke="#000000"
-                            strokeWidth="1"
-                            viewBox="0 0 24 24"
-                        >
-                            <circle cx="12" cy="8" r="4" />
-                            <path d="M4 20c0-4 8-4 8-4s8 0 8 4v0a4 4 0 01-4 4H8a4 4 0 01-4-4z" />
-                        </svg>
-                    </Link>
-
-                    {/* DROPDOWN MENU (Toggle-based for mobile compatibility) */}
-                    {showProfileMenu && (
-                        <div className="absolute right-0 pt-4 z-50">
-                            <div className='flex flex-col gap-2 w-36 py-3 px-5 border border-pink-300 bg-white text-black rounded-none'>
-                                <p className='cursor-pointer hover:text-gray-700'>My Profile</p>
-                                <hr className='border-t border-pink-300 my-0' />
-                                <p onClick={() => navigate('/orders')} className='cursor-pointer hover:text-gray-700'>Orders</p>
-                                <hr className='border-t border-pink-300 my-0' />
-                                <p onClick={logout} className='cursor-pointer hover:text-gray-700'>Logout</p>
-                            </div>
+                            {showProfileMenu && (
+                                <div className="absolute right-0 mt-3 w-40 border border-pink-300 bg-white text-black z-50">
+                                    <div className="flex flex-col gap-2 py-3 px-5">
+                                        <p className="cursor-pointer hover:text-gray-700">My Profile</p>
+                                        <hr className="border-t border-pink-300 my-0" />
+                                        <p onClick={() => navigate('/orders')} className="cursor-pointer hover:text-gray-700">Orders</p>
+                                        <hr className="border-t border-pink-300 my-0" />
+                                        <p onClick={logout} className="cursor-pointer hover:text-gray-700">Logout</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    )}
+
+                        {/* WISHLIST ICON */}
+                        <Link to="/wishlist" className="relative  mt-1.5">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-7 h-7 cursor-pointer "
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="white"
+                                strokeWidth="1.5"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M3 8.5C3 6 5 4 7.5 4C9.28 4 11 5.25 11.5 6.9C12 5.25 13.72 4 15.5 4C18 4 20 6 20 8.5C20 13 12 20 12 20C12 20 3 13 3 8.5Z"
+                                />
+                            </svg>
+                            {getWishlistCount() > 0 && (
+                                <span className="absolute -top-2 -right-2 min-w-[14px] h-4 px-[2px] bg-white text-black rounded-full text-[10px] flex items-center justify-center">
+                                    {getWishlistCount()}
+                                </span>
+                            )}
+                        </Link>
+
+                        {/* CART ICON */}
+                        <Link to="/cart" className="relative mt-1.5">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-7 h-7 cursor-pointer"
+                                fill="none"
+                                stroke="white"
+                                strokeWidth="1.5"
+                                viewBox="0 0 24 24"
+                            >
+                                <path d="M3 3h2l.4 2M5.4 5l1.6 8h10l4-8H5.4z" />
+                                <circle cx="9" cy="20" r="1.5" />
+                                <circle cx="17" cy="20" r="1.5" />
+                            </svg>
+                            {getCartCount() > 0 && (
+                                <span className="absolute -top-2 -right-2 min-w-[14px] h-4 px-[2px] bg-white text-black rounded-full text-[10px] flex items-center justify-center">
+                                    {getCartCount()}
+                                </span>
+                            )}
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            {/* NAVBAR MAIN ROW */}
+            <div className="relative max-w-7xl mx-auto flex items-center justify-between py-5 font-medium px-4 sm:px-8 -mb-18 -mt-5">
+                {/* LEFT: SEARCH */}
+                <div className="flex items-center gap-4 flex-1">
+                    <input
+                        type="text"
+                        onFocus={() => {
+                            setShowSearch(true)
+                            if (!location.pathname.includes('/collection')) {
+                                navigate('/collection')
+                            }
+                        }}
+                        placeholder="Search products..."
+                        className="hidden sm:block w-48 md:w-64 border border-[#ffc6db] rounded-full px-4 py-1.5 focus:outline-none"
+                    />
                 </div>
 
-                {/* CART ICON */}
-                <Link to="/cart" className="relative">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-8 h-8 -mt-[62px] -ml-4 text-black cursor-pointer"
-                        fill="none"
-                        stroke="#000000"
-                        strokeWidth="1"
-                        viewBox="0 0 24 24"
-                    >
-                        <path d="M3 3h2l.4 2M5.4 5l1.6 8h10l4-8H5.4z" />
-                        <path d="M7 13L5.5 20" />
-                        <circle cx="9" cy="20" r="1.5" />
-                        <circle cx="17" cy="20" r="1.5" />
-                    </svg>
-                    <p className="absolute right-[-6px] bottom-[18px] min-w-[16px] h-4 px-[2px] text-center bg-black text-white rounded-full text-[20px] flex items-center justify-center">
-                        {getCartCount()}
-                    </p>
+                {/* CENTER: LOGO EXACTLY CENTER */}
+                <Link to="/" className="flex-shrink-0 mx-auto mr-40 -mt-2">
+                    <img src={assets.logo} alt="Logo" className="w-[180px] sm:w-[220px]" />
                 </Link>
 
-                {/* MENU ICON (mobile) */}
+                {/* RIGHT: NAV LINKS */}
+                <ul className="hidden sm:flex gap-6 text-base font-semibold ml-auto">
+                    <NavLink
+                        to="/collection"
+                        className="relative after:content-[''] after:block after:h-[2px] after:w-0 after:bg-[#f76097] after:transition-all hover:after:w-full"
+                    >
+                        COLLECTION
+                    </NavLink>
+                    <NavLink
+                        to="/about"
+                        className="relative after:content-[''] after:block after:h-[2px] after:w-0 after:bg-[#f76097] after:transition-all hover:after:w-full"
+                    >
+                        ABOUT
+                    </NavLink>
+                    <NavLink
+                        to="/contact"
+                        className="relative after:content-[''] after:block after:h-[2px] after:w-0 after:bg-[#f76097] after:transition-all hover:after:w-full"
+                    >
+                        CONTACT
+                    </NavLink>
+                </ul>
+
+
+                {/* MOBILE MENU ICON */}
                 <svg
                     onClick={() => setVisible(true)}
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8 -mt-20 text-black cursor-pointer sm:hidden -ml-4"
+                    className="w-8 h-8 text-black cursor-pointer sm:hidden"
                     fill="none"
                     stroke="#000000"
                     strokeWidth="1"
@@ -150,16 +176,16 @@ const Navbar = () => {
 
             {/* MOBILE SIDEBAR */}
             <div
-                className={`fixed inset-0 z-50 bg-white transition-all duration-300 ease-in-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`fixed top-0 right-0 h-full w-3/4 max-w-sm bg-white z-50 shadow-lg transform transition-transform duration-300 ease-in-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}
             >
-                <div className="flex flex-col text-black">
+                <div className="flex flex-col h-full">
                     <div
                         onClick={() => setVisible(false)}
-                        className="flex items-center gap-4 p-3 cursor-pointer"
+                        className="flex items-center gap-4 p-5 cursor-pointer border-b"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="w-8 h-8 text-black cursor-pointer"
+                            className="w-8 h-8 text-black"
                             fill="none"
                             stroke="#000000"
                             strokeWidth="1"
@@ -167,12 +193,24 @@ const Navbar = () => {
                         >
                             <path d="M15 18l-6-6 6-6" />
                         </svg>
-                        <p className="mt-0 mr-11.5 text-[18px] font-semibold">Back</p>
+                        <p className="text-lg font-semibold">Close</p>
                     </div>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-12 border font-semibold' to='/'>HOME</NavLink>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-12 border font-semibold' to='/collection'>COLLECTION</NavLink>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-12 border font-semibold' to='/about'>ABOUT</NavLink>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-12 border font-semibold' to='/contact'>CONTACT</NavLink>
+
+                    <div className="flex flex-col flex-grow py-4">
+                        {['/collection', '/about', '/contact'].map((path, idx) => {
+                            const names = ['COLLECTION', 'ABOUT', 'CONTACT']
+                            return (
+                                <NavLink
+                                    key={path}
+                                    onClick={() => setVisible(false)}
+                                    className="py-4 px-8 text-lg font-semibold hover:bg-gray-100"
+                                    to={path}
+                                >
+                                    {names[idx]}
+                                </NavLink>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
         </div>

@@ -73,8 +73,18 @@ import contact_img from './contact_img.png'
 import razorpay_logo from './razorpay_logo.png'
 import stripe_logo from './stripe_logo.png'
 import cross_icon from './cross_icon.png'
+import women from './women.png'
+import man from './man.png'
+import kid from './kid.png'
+import Banner from './Banner.png'
+import Wallpaper from './Wallpaper.png'
 
 export const assets = {
+    Wallpaper,
+    Banner,
+    kid,
+    man,
+    women,
     logo,
     hero_img,
     cart_icon,
@@ -322,7 +332,7 @@ export const products = [
         subCategory: "Topwear",
         sizes: ["S", "M", "L", "XL"],
         date: 1716632145448,
-        bestseller: true
+        bestseller: false
     },
     {
         _id: "Palazzo1",
@@ -693,7 +703,7 @@ export const products = [
         category: "Kids",
         subCategory: "Bottomwear",
         sizes: ["S", "M", "L", "XL"],
-        date: 1716666245448, bestseller: true
+        date: 1716666245448, bestseller: false
     },
     {
         _id: "aaaby",

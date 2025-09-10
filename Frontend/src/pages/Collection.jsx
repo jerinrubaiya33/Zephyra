@@ -4,6 +4,7 @@ import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
 import { Listbox } from '@headlessui/react';
 import { ChevronDown, Check } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const Collection = () => {
   const { products, search, showSearch } = useContext(ShopContext);
@@ -12,6 +13,26 @@ const Collection = () => {
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortOption, setSortOption] = useState('relevant');
+
+  const location = useLocation();
+
+  // Read query params on first load
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const categoryParam = queryParams.get('category');
+
+    if (categoryParam) {
+      const cat = categoryParam.toLowerCase();
+      // If it matches a main category
+      if (['men', 'women', 'kids'].includes(cat)) {
+        setCategory([cat.charAt(0).toUpperCase() + cat.slice(1)]);
+      } 
+      // If it matches a subcategory
+      else if (['topwear', 'bottomwear', 'winterwear'].includes(cat)) {
+        setSubCategory([cat.charAt(0).toUpperCase() + cat.slice(1)]);
+      }
+    }
+  }, [location.search]);
 
   const toggleCategory = (e) => {
     const { value } = e.target;
@@ -28,8 +49,7 @@ const Collection = () => {
   };
 
   useEffect(() => {
-    // Check if products is a truthy value and an array before spreading
-    let filtered = (products && Array.isArray(products)) ? [...products] : [];
+    let filtered = Array.isArray(products) ? [...products] : [];
 
     if (showSearch && search) {
       filtered = filtered.filter(item =>
@@ -44,7 +64,6 @@ const Collection = () => {
     if (subCategory.length > 0) {
       filtered = filtered.filter(item => subCategory.includes(item.subCategory));
     }
-
 
     if (sortOption === 'low-high') {
       filtered.sort((a, b) => a.price - b.price);
@@ -62,7 +81,8 @@ const Collection = () => {
   }, [products]);
 
   return (
-    <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t border-[#ffd7d7] -mt-20 sm:-mt-28 -ml-2'>
+    <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t border-[#ffd7d7] -mt-16 sm:-mt-20 -ml-2'>
+      {/* Filters Sidebar */}
       <div className='min-w-60 -ml-3 sm:mt-0 -mt-8 z-30 relative'>
         <button
           type="button"
@@ -83,6 +103,7 @@ const Collection = () => {
           </svg>
         </button>
 
+        {/* Main Categories */}
         <div className={`border border-[#ffa1c4] ml-5 pl-5 py-3 my-5 ${showFilter ? '' : 'hidden'} sm:block`}>
           <p className='mb-3 text-md font-bold'>CATEGORIES</p>
           <div className='flex flex-col gap-2 text-sm font-light text-black'>
@@ -91,6 +112,7 @@ const Collection = () => {
                 <input
                   type="checkbox"
                   value={cat}
+                  checked={category.includes(cat)}
                   onChange={toggleCategory}
                   className="hidden peer"
                 />
@@ -101,6 +123,7 @@ const Collection = () => {
           </div>
         </div>
 
+        {/* Sub Categories */}
         <div className={`border border-[#ffa1c4] ml-5 pl-5 py-3 my-5 ${showFilter ? '' : 'hidden'} sm:block`}>
           <p className='mb-3 text-md font-bold'>TYPE</p>
           <div className='flex flex-col gap-2 text-sm font-light text-black'>
@@ -109,6 +132,7 @@ const Collection = () => {
                 <input
                   type="checkbox"
                   value={sub}
+                  checked={subCategory.includes(sub)}
                   onChange={toggleSubCategory}
                   className="hidden peer"
                 />
@@ -120,6 +144,7 @@ const Collection = () => {
         </div>
       </div>
 
+      {/* Products Grid */}
       <div className='flex-1 mt-5 ml-2'>
         <div className='flex justify-between text-base sm:text-2xl mb-4'>
           <div className='inline-flex gap-1 sm:gap-2 items-center mb-2 sm:mb-3 -mt-2 sm:-mt-4'>
@@ -163,7 +188,6 @@ const Collection = () => {
                   </Listbox.Option>
                 ))}
               </Listbox.Options>
-
             </div>
           </Listbox>
         </div>

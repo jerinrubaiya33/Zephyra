@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 
 const Footer = () => {
     return (
-        <div className="w-full">
+        <div className="w-screen -ml-27.5 bg-[#f76097] text-white">
             <div className='grid grid-cols-1 sm:grid-cols-[3fr_1fr_1fr] gap-10 sm:gap-14 my-10 mt-15 text-sm px-4 sm:px-10 -ml-2'>
                 <div>
                     <img src={assets.logo} className='-mt-12 w-65 -ml-17' alt="logo" />
-                    <p className='w-full -mt-22 -ml-2 md:w-3/3 text-black text-sm sm:text-base md:text-lg '>
+                    <p className='w-full -mt-22 -ml-2 md:w-3/3 text-sm sm:text-base md:text-lg text-white'>
                         Since 1950, our clothing shop has stood as a symbol of enduring quality and style. Founded by Rubaiya Khan, a passionate tailor with a vision for timeless fashion, our legacy is built on precision craftsmanship, premium fabrics, and generations of trust.
                     </p>
                 </div>
@@ -16,7 +16,7 @@ const Footer = () => {
                 {/* Company Links */}
                 <div className='mt-5 sm:mt-18 text-start sm:text-left'>
                     <p className='text-2xl font-bold mb-5'>COMPANY</p>
-                    <ul className='flex flex-col gap-0 sm:gap-1 text-black text-xl'>
+                    <ul className='flex flex-col gap-0 sm:gap-1 text-white text-xl'>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/about">About Us</Link></li>
                         <li><Link to="/delivery">Delivery</Link></li>
@@ -28,7 +28,7 @@ const Footer = () => {
                 {/* Contact */}
                 <div className='mt-5 sm:mt-18 text-start sm:text-left'>
                     <p className='text-2xl font-bold mb-5'>GET IN TOUCH</p>
-                    <ul className='flex flex-col gap-1 text-black text-xl'>
+                    <ul className='flex flex-col gap-1 text-white text-xl'>
                         <li><a href="tel:+8801618758">+880-1618-758-208</a></li>
                         <li><a href="mailto:jerinrubaiyakhan@gmail.com">jerinrubaiyakhan11@gmail.com</a></li>
                     </ul>
