@@ -12,10 +12,10 @@ const Navbar = () => {
     const location = useLocation()
 
     const logout = () => {
-        navigate('/login')
         localStorage.removeItem('token')
         setToken('')
         setCartItems({})
+        navigate('/')   // ✅ go home after logout
     }
 
     useEffect(() => {
@@ -61,11 +61,39 @@ const Navbar = () => {
                             {showProfileMenu && (
                                 <div className="absolute right-0 mt-3 w-40 border border-pink-300 bg-white text-black z-50">
                                     <div className="flex flex-col gap-2 py-3 px-5">
-                                        <p className="cursor-pointer hover:text-gray-700">My Profile</p>
+                                        {/* My Profile */}
+                                        <p
+                                            onClick={() => {
+                                                const token = localStorage.getItem("token")
+                                                if (token) {
+                                                    navigate('/')   // ✅ if logged in → home
+                                                } else {
+                                                    navigate('/login')   // ✅ if not logged in → login
+                                                }
+                                                setShowProfileMenu(false)
+                                            }}
+                                            className="cursor-pointer hover:text-gray-700"
+                                        >
+                                            My Profile
+                                        </p>
                                         <hr className="border-t border-pink-300 my-0" />
-                                        <p onClick={() => navigate('/orders')} className="cursor-pointer hover:text-gray-700">Orders</p>
+
+                                        {/* Orders */}
+                                        <p
+                                            onClick={() => navigate('/orders')}
+                                            className="cursor-pointer hover:text-gray-700"
+                                        >
+                                            Orders
+                                        </p>
                                         <hr className="border-t border-pink-300 my-0" />
-                                        <p onClick={logout} className="cursor-pointer hover:text-gray-700">Logout</p>
+
+                                        {/* Logout */}
+                                        <p
+                                            onClick={logout}
+                                            className="cursor-pointer hover:text-gray-700"
+                                        >
+                                            Logout
+                                        </p>
                                     </div>
                                 </div>
                             )}
@@ -153,7 +181,6 @@ const Navbar = () => {
                         <circle cx="11" cy="11" r="8" />
                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
                     </svg>
-
                 </div>
 
                 {/* CENTER: LOGO */}
@@ -226,7 +253,6 @@ const Navbar = () => {
                         )
                     })}
                 </div>
-
             </div>
         </div>
     )
