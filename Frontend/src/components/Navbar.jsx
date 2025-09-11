@@ -15,7 +15,7 @@ const Navbar = () => {
         localStorage.removeItem('token')
         setToken('')
         setCartItems({})
-        navigate('/')   // ✅ go home after logout
+        navigate('/')   // go home after logout
     }
 
     useEffect(() => {
@@ -66,9 +66,9 @@ const Navbar = () => {
                                             onClick={() => {
                                                 const token = localStorage.getItem("token")
                                                 if (token) {
-                                                    navigate('/')   // ✅ if logged in → home
+                                                    navigate('/')   // if logged in → home
                                                 } else {
-                                                    navigate('/login')   // ✅ if not logged in → login
+                                                    navigate('/login')   // if not logged in → login
                                                 }
                                                 setShowProfileMenu(false)
                                             }}
