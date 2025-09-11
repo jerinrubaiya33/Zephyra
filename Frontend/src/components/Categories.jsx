@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
+import Title from './Title';
 
 const Categories = () => {
     const navigate = useNavigate();
@@ -12,7 +13,19 @@ const Categories = () => {
     ];
 
     return (
-        <div className="flex flex-col gap-24 mt-40 px-4 sm:px-12 lg:px-20 indie-font">
+        <div className="flex flex-col gap-24 mt-15 px-4 sm:px-12 lg:px-20 indie-font">
+            
+            {/* Section Title */}
+            <div className="text-center mb-12">
+                <div className="flex items-center justify-center gap-3">
+                    <Title text1={"OUR"} text2={'SECTIONS'} />
+                </div>
+                <p className="w-full sm:w-3/4 md:w-2/4 m-auto text-sm sm:text-base md:text-lg text-black mt-0">
+                    Curated sections for every style and age group.
+                </p>
+            </div>
+
+            {/* Categories */}
             {categories.map((cat, index) => (
                 <div
                     key={index}
@@ -20,7 +33,7 @@ const Categories = () => {
                         } items-center gap-10`}
                 >
                     {/* Image */}
-                    <div className="relative w-full md:w-1/2 group -mt-15 -mb-10 md:-mb-0 md:-mt-28">
+                    <div className="relative w-full md:w-1/2 group -mt-30 -mb-10 md:-mb-0 md:-mt-28">
                         <img
                             src={cat.image}
                             alt={`${cat.name} Category`}
@@ -58,62 +71,3 @@ const Categories = () => {
 };
 
 export default Categories;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react'
-// import { useNavigate } from 'react-router-dom'
-// import { assets } from '../assets/assets'
-
-// const Categories = () => {
-//   const navigate = useNavigate()
-
-//   const categories = [
-//     { name: 'Women', image: assets.women, link: '/collection?category=women' },
-//     { name: 'Men', image: assets.man, link: '/collection?category=men' },
-//     { name: 'Kids', image: assets.kid, link: '/collection?category=kids' },
-//   ]
-
-//  return (
-//   <div className="flex flex-col mt-30 px-6 sm:px-12 lg:px-15 indie-font w-screen -ml-28">
-//     <div className="flex flex-col sm:flex-row gap-6">
-//       {categories.map((cat, index) => (
-//         <div
-//           key={index}
-//           className="relative w-full sm:w-1/3 group overflow-hidden shadow-lg cursor-pointer"
-//           onClick={() => navigate(cat.link)}
-//         >
-//           {/* Category Image */}
-//           <img
-//             src={cat.image}
-//             alt={`${cat.name} Category`}
-//             className="w-full h-[300px] sm:h-[400px] object-cover transform group-hover:scale-105 transition duration-500"
-//           />
-
-//           {/* Overlay */}
-//           <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition duration-500 flex flex-col justify-center items-center">
-//             <h2 className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{cat.name}</h2>
-//             <button className="px-6 py-2 sm:px-6 sm:py-2 bg-black text-white font-semibold shadow-md hover:scale-105 transition-transform duration-300">
-//               Shop Now
-//             </button>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-//   </div>
-// )
-
-// }
-
-// export default Categories
