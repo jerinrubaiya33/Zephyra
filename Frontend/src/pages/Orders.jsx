@@ -27,7 +27,7 @@ const Orders = () => {
       if (res.ok) {
         setOrders(data.orders)
       } else {
-        toast.error(data.error || 'Failed to fetch orders')
+        toast.error(data.error || 'Access requires login')
       }
     } catch (err) {
       console.error('Fetch orders error:', err)
