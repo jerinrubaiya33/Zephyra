@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { assets } from '../assets/assets'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext'
+import { toast } from 'react-toastify'
 
 const Navbar = () => {
     const [visible, setVisible] = useState(false)
@@ -65,9 +66,28 @@ const Navbar = () => {
                                             onClick={() => {
                                                 const token = localStorage.getItem("token")
                                                 if (token) {
-                                                    navigate('/')   // if logged in → home
+                                                    toast(" Hello There ! You're already logged in", {
+                                                        position: "top-center",
+                                                        autoClose: 2500,
+                                                        hideProgressBar: false,
+                                                        closeOnClick: false,
+                                                        pauseOnHover: true,
+                                                        draggable: true,
+                                                        style: {
+                                                            backgroundColor: "#ffff",
+                                                            color: "#f76097",
+                                                            fontWeight: "bolder",
+                                                            borderRadius: "10px",
+                                                            fontFamily: "Indie Flower, cursive",
+                                                            letterSpacing: "0.1em",
+                                                            width: "400px",
+                                                            minWidth: "300px",
+                                                            textAlign: "center",
+                                                        },
+                                                    })
+                                                    navigate('/')   // or navigate('/profile')
                                                 } else {
-                                                    navigate('/login')   // if not logged in → login
+                                                    navigate('/login')
                                                 }
                                                 setShowProfileMenu(false)
                                             }}
@@ -77,22 +97,54 @@ const Navbar = () => {
                                         </p>
                                         <hr className="border-t border-pink-300 my-0" />
 
-                                        {/* Orders */}
+                                        {/* Orders (always shown) */}
                                         <p
-                                            onClick={() => navigate('/orders')}
+                                            onClick={() => {
+                                                navigate('/orders')
+                                                setShowProfileMenu(false)
+                                            }}
                                             className="cursor-pointer hover:text-gray-700"
                                         >
                                             Orders
                                         </p>
                                         <hr className="border-t border-pink-300 my-0" />
 
-                                        {/* Logout */}
-                                        <p
-                                            onClick={logout}
-                                            className="cursor-pointer hover:text-gray-700"
-                                        >
-                                            Logout
-                                        </p>
+                                        {/* Logout (only when logged in) */}
+                                        {localStorage.getItem("token") && (
+                                            <p
+                                                onClick={() => {
+                                                    logout()
+                                                    setShowProfileMenu(false)
+                                                    toast(" ✔️ Successfully logged out!", {
+                                                        position: "bottom-center",
+                                                        autoClose: 4000,
+                                                        hideProgressBar: false,
+                                                        closeOnClick: false,
+                                                        pauseOnHover: true,
+                                                        draggable: true,
+                                                        style: {
+                                                            backgroundColor: "#f76097",
+                                                            color: "#ffff",
+                                                            fontWeight: "bolder",
+                                                            borderRadius: "10px",
+                                                            fontFamily: "Indie Flower, cursive",
+                                                            letterSpacing: "0.05em",
+                                                            width: "350px",
+                                                            textAlign: "center",
+                                                            fontSize: "22px",
+                                                        },
+                                                        progressStyle: {
+                                                            background: "#FFFFFF",
+                                                            height: "16px",
+                                                            borderRadius: "0 0 10px 10px", // match toast rounded edges
+                                                        },
+                                                    })
+                                                }}
+                                                className="cursor-pointer hover:text-gray-700"
+                                            >
+                                                Logout
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             )}
