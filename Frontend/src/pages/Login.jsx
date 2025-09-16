@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [currentState, setCurrentState] = useState('Login');
-  const { token, setToken, navigate, backendUrl, setCartItems } = useContext(ShopContext); 
+  const { token, setToken, navigate, backendUrl, setCartItems } = useContext(ShopContext);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -15,14 +15,20 @@ const Login = () => {
   const showToast = (message, type = 'default') => {
     toast(message, {
       type,
-      position: "top-right",
+      position: "bottom-center",
       autoClose: 3000,
       theme: "light",
       style: {
         background: '#ffffff',
         color: '#000000',
         fontFamily: "Indie Flower",
-        fontWeight: 'bold'
+        fontWeight: 'bolder',
+        letterSpacing: "0.05em",
+        width: "350px",
+        textAlign: "center",
+        fontSize: "22px",
+        backgroundColor: "#ffffff",
+        color: "#f76097",
       }
     });
   };
