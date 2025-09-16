@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { ShopContext } from '../context/ShopContext';
 import ProductItem from '../components/ProductItem';
+import { ShopContext } from '../context/ShopContext';
 
 const Wishlist = () => {
   const { products, wishlistItems } = useContext(ShopContext);

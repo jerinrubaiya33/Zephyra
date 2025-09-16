@@ -26,7 +26,7 @@ const Collection = () => {
       // If it matches a main category
       if (['men', 'women', 'kids'].includes(cat)) {
         setCategory([cat.charAt(0).toUpperCase() + cat.slice(1)]);
-      } 
+      }
       // If it matches a subcategory
       else if (['topwear', 'bottomwear', 'winterwear'].includes(cat)) {
         setSubCategory([cat.charAt(0).toUpperCase() + cat.slice(1)]);
@@ -194,13 +194,23 @@ const Collection = () => {
 
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
           {filterProducts.map((item, index) => (
+            // <ProductItem
+            //   key={index}
+            //   name={item.name}
+            //   id={item._id}
+            //   price={item.price}
+            //   image={item.image}
+            //   discount={item.discount ?? 10} 
+            // />
             <ProductItem
-              key={index}
-              name={item.name}
+              key={item._id}
               id={item._id}
+              name={item.name}
               price={item.price}
               image={item.image}
+              discount={item.discount ?? 0} // fallback to 0 if undefined
             />
+
           ))}
         </div>
       </div>

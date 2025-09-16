@@ -15,7 +15,6 @@ const Navbar = () => {
         localStorage.removeItem('token')
         setToken('')
         setCartItems({})
-        navigate('/')   // go home after logout
     }
 
     useEffect(() => {

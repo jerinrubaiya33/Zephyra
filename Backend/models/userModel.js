@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true }, // User's email (must be unique)
     password: { type: String, required: true }, // Encrypted password (must be provided)
     cartData: { type: Object, default: {} }, // Empty cart by default (for new users)
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
 }, { minimize: false });
 
 //    { minimize: false } ensures that empty objects like cartData are still saved.
