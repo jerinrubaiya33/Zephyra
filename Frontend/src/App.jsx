@@ -18,7 +18,7 @@ import Wishlist from './pages/WishList'
 const App = () => {
   return (
     <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
-      <ToastContainer
+       <ToastContainer
         position="top-right"
         autoClose={3000}
         hideProgressBar={false}
@@ -28,15 +28,8 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
-        toastStyle={{
-        borderRadius: '0'
-        }}
-        progressStyle={{
-          background: '#000000',
-          height: '3px',
-          borderRadius: '0'
-        }}
+        toastStyle={{ borderRadius: '10px', backgroundColor: '#ffffff', color: '#f76097',  fontSize: "18px",  fontFamily: "'Indie Flower', cursive", }}
+        progressStyle={{ background: '#ffff', height: '10px', borderRadius: '0' }}
       />
       <Navbar />
       <SearchBar />
