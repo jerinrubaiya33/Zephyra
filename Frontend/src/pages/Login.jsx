@@ -124,9 +124,10 @@ const Login = () => {
           </p>
         </div>
 
-        <button className='bg-black text-white font-light px-14 py-2 mt-4'>
+        <button className='bg-black text-white font-light px-14 py-2 mt-4 hover:bg-gray-700 hover:text-white transition-colors duration-300'>
           {currentState === 'Login' ? 'Sign In' : 'Sign Up'}
         </button>
+
       </form>
     </div>
   );
