@@ -15,7 +15,7 @@ const authUser = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("Auth Error:", error.message);
-    res.status(401).json({ success: false, message: 'Invalid or expired token' });
+    res.status(401).json({ success: false, message: 'User must be login or place orders' });
   }
 };
 
