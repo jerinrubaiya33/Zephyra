@@ -14,6 +14,7 @@ const ShopContextProvider = (props) => {
   const currency = "$";
   const delivery_fee = 10;
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [products, setProducts] = useState([]);
@@ -97,7 +98,6 @@ const ShopContextProvider = (props) => {
   useEffect(() => {
     const handleAuthChange = async () => {
       if (token) {
-        // sync local first
         try {
           const stored = localStorage.getItem("wishlistItems");
           const localItems = stored ? JSON.parse(stored) : [];
@@ -105,10 +105,8 @@ const ShopContextProvider = (props) => {
             await syncLocalWishlistToServer(localItems);
           }
         } catch {}
-        // then fetch canonical server wishlist
         await fetchWishlistFromServer();
       } else {
-        // logged out → restore from local
         try {
           const stored = localStorage.getItem("wishlistItems");
           setWishlistItems(stored ? JSON.parse(stored) : []);
@@ -124,7 +122,6 @@ const ShopContextProvider = (props) => {
     if (!productId) return;
     const currentlyIn = wishlistItems.includes(productId);
 
-    // optimistic local update
     setWishlistItems((prev) =>
       currentlyIn ? prev.filter((id) => id !== productId) : [...prev, productId]
     );
@@ -156,7 +153,7 @@ const ShopContextProvider = (props) => {
   const isInWishlist = (productId) => wishlistItems.includes(productId);
   const getWishlistCount = () => wishlistItems.length;
 
-  // ----------------- CART (unchanged except using /api/cart) -----------------
+  // ----------------- CART -----------------
   const [cartItems, setCartItems] = useState(() => {
     try {
       const stored = localStorage.getItem("cartItems");
@@ -184,27 +181,38 @@ const ShopContextProvider = (props) => {
       toast("⚠️ Select Product Size", toastOptions());
       return;
     }
+
     let cartData = structuredClone(cartItems);
     const currentQty = cartData[itemId]?.[size] || 0;
+
     if (currentQty >= 5) {
       toast("⚠️ Max 5 allowed", toastOptions());
       return;
     }
+
     if (cartData[itemId]) {
       cartData[itemId][size] = (cartData[itemId][size] || 0) + 1;
     } else {
       cartData[itemId] = { [size]: 1 };
     }
+
     setCartItems(cartData);
-    if (token) {
+
+    // ✅ Dynamic toast message
+    const totalAdded = cartData[itemId][size];
+    toast(`🛒 You've added ${totalAdded} ${totalAdded === 1 ? "item" : "items"} to the cart`);
+
+    const userId = localStorage.getItem("userId");
+    if (token && userId) {
       try {
         await axios.post(
           `${backendUrl}/api/cart/add`,
-          { itemId, size },
+          { userId, itemId, size },
           { headers: { Authorization: `Bearer ${token}` } }
         );
       } catch (err) {
-        toast.error(err.message);
+        console.error("Add to cart error:", err.response?.data || err.message);
+        toast.error("Failed to add to cart");
       }
     }
   };
@@ -223,6 +231,7 @@ const ShopContextProvider = (props) => {
   const updateQuantity = async (itemId, size, quantity) => {
     quantity = Math.max(0, Math.min(5, Number(quantity)));
     let cartData = structuredClone(cartItems);
+
     if (quantity === 0) {
       delete cartData[itemId][size];
       if (Object.keys(cartData[itemId]).length === 0) delete cartData[itemId];
@@ -231,15 +240,18 @@ const ShopContextProvider = (props) => {
       cartData[itemId][size] = quantity;
     }
     setCartItems(cartData);
-    if (token) {
+
+    const userId = localStorage.getItem("userId");
+    if (token && userId) {
       try {
         await axios.post(
           `${backendUrl}/api/cart/update`,
-          { itemId, size, quantity },
+          { userId, itemId, size, quantity },
           { headers: { Authorization: `Bearer ${token}` } }
         );
       } catch (err) {
-        toast.error(err.message);
+        console.error("Update cart error:", err.response?.data || err.message);
+        toast.error("Failed to update cart");
       }
     }
   };
@@ -270,10 +282,11 @@ const ShopContextProvider = (props) => {
   }, []);
 
   // ----------------- AUTH -----------------
-  const login = (newToken) => {
-    if (!newToken) return;
+  const login = (newToken, userId) => {
+    if (!newToken || !userId) return;
     setToken(newToken);
     localStorage.setItem("token", newToken);
+    localStorage.setItem("userId", userId); // ✅ save userId
   };
 
   const logout = () => {
@@ -281,6 +294,7 @@ const ShopContextProvider = (props) => {
     setCartItems({});
     setWishlistItems([]);
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     localStorage.removeItem("cartItems");
     localStorage.removeItem("wishlistItems");
     toast("👋 Logged out successfully!", toastOptions());
@@ -318,7 +332,6 @@ const ShopContextProvider = (props) => {
     token,
     login,
     logout,
-    // wishlist
     wishlistItems,
     setWishlistItems,
     toggleWishlist,

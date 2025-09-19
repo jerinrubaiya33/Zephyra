@@ -32,9 +32,8 @@ const Cart = () => {
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
   };
-
   const handleCheckout = () => {
-    if (getCartCount() === 0) {
+    if (cartData.length === 0) {
       if (!toastShown) {
         toast('🛒 Your cart is empty, please add any product', {
           style: {
@@ -47,6 +46,7 @@ const Cart = () => {
           progressStyle: {
             background: 'black',
           },
+          autoClose: 5000, // 5 seconds
         });
         setToastShown(true);
       }
@@ -78,9 +78,9 @@ const Cart = () => {
               >
                 {/* Product Info: image + product name & details */}
                 <div className='flex items-start gap-4 flex-grow min-w-0'>
-                  <img 
-                    className='w-20 sm:w-24 flex-shrink-0 cursor-pointer' 
-                    src={productData.image?.[0] || ''} 
+                  <img
+                    className='w-20 sm:w-24 flex-shrink-0 cursor-pointer'
+                    src={productData.image?.[0] || ''}
                     alt={productData.name}
                     onClick={() => handleProductClick(productData._id)}
                   />
@@ -105,7 +105,7 @@ const Cart = () => {
                 <div className="flex-grow sm:hidden" />
 
                 {/* Quantity Control */}
-                <div className="flex items-center gap-2 w-auto sm:w-auto flex-shrink-0 mt-0 sm:mb-0">
+                <div className="flex items-center gap-2 w-auto sm:w-auto flex-shrink-0 mt-7 sm:mb-0">
                   <span className='text-base whitespace-nowrap ml-22'>Qty:</span>
                   <input
                     type="number"
@@ -138,8 +138,8 @@ const Cart = () => {
           })
         ) : (
           <div className="text-center py-10">
-            <p className="text-lg">Oppsss! Your cart is empty ;')</p>
-            <button 
+            <p className="text-lg">Oppsss! Your cart is empty ;</p>
+            <button
               onClick={() => navigate('/collection')}
               className="mt-4 bg-black text-white px-6 py-2"
             >
@@ -156,11 +156,10 @@ const Cart = () => {
             <div className='w-full text-end'>
               <button
                 onClick={handleCheckout}
-                className={`text-medium px-6 my-6 py-2 ${
-                  getCartCount() === 0
+                className={`text-medium px-6 my-6 py-2 ${getCartCount() === 0
                     ? 'bg-white border border-pink-400 cursor-not-allowed'
                     : 'bg-black text-white hover:bg-gray-800 transition-colors'
-                }`}
+                  }`}
               >
                 PROCEED TO CHECKOUT
               </button>

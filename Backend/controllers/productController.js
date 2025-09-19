@@ -64,6 +64,7 @@ const removeProduct = async (req, res) => {
 }
 
 //function for single product information
+//function for single product information
 const singleProduct = async (req, res) => {
   try {
     const { productId } = req.body
@@ -72,7 +73,33 @@ const singleProduct = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message })
-  }
+  } 
 }
 
-export { listProducts, addProduct, removeProduct, singleProduct }
+// function to update product discount
+const updateDiscount = async (req, res) => {
+  try {
+    const { productId, discount } = req.body;
+
+    if (!productId || discount === undefined) {
+      return res.json({ success: false, message: "Product ID and discount are required" });
+    }
+
+    const product = await productModel.findByIdAndUpdate(
+      productId,
+      { discount: Number(discount) },
+      { new: true }
+    );
+
+    if (!product) {
+      return res.json({ success: false, message: "Product not found" });
+    }
+
+    res.json({ success: true, message: "Discount updated", product });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export { listProducts, addProduct, removeProduct, singleProduct, updateDiscount }

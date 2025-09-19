@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
@@ -12,15 +12,13 @@ const Product = () => {
   const [image, setImage] = useState('');
   const [size, setSize] = useState('');
   const [loading, setLoading] = useState(true);
-  const [toastShown, setToastShown] = useState(false);
 
   const fetchProductData = () => {
     try {
       setLoading(true);
-      const foundProduct = products.find(item => item._id === productId);
-      
-      if (!foundProduct && !toastShown) {
-        setToastShown(true);
+      const foundProduct = products.find(item => String(item._id) === String(productId)); 
+
+      if (!foundProduct) {
         throw new Error('Product not found');
       }
 
@@ -29,14 +27,11 @@ const Product = () => {
       setSize(foundProduct?.sizes?.[0] || '');
     } catch (error) {
       console.error('Error fetching product:', error);
-      if (!toastShown) {
-        toast.error('Product not found');
-        setToastShown(true);
-      }
+      toast.error('Product not found');
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (products.length > 0) {
@@ -49,8 +44,7 @@ const Product = () => {
       toast.error('Please select a size');
       return;
     }
-    addToCart(productData._id, size, 1);
-    // Removed toast.success here
+    addToCart(productData._id, size, 1); // toast handled in context
   };
 
   if (loading) {
@@ -98,11 +92,11 @@ const Product = () => {
         <div className='flex-1'>
           <h1 className='font-bold text-2xl mt-2'>{productData.name}</h1>
           <div className='flex items-center gap-1 mt-2'>
-            <img src={assets.star_icon} className="w-3 5" alt="star" />
-            <img src={assets.star_icon} className="w-3 5" alt="star" />
-            <img src={assets.star_icon} className="w-3 5" alt="star" />
-            <img src={assets.star_icon} className="w-3 5" alt="star" />
-            <img src={assets.star_dull_icon} className="w-3 5" alt="star" />
+            <img src={assets.star_icon} className="w-3.5" alt="star" />
+            <img src={assets.star_icon} className="w-3.5" alt="star" />
+            <img src={assets.star_icon} className="w-3.5" alt="star" />
+            <img src={assets.star_icon} className="w-3.5" alt="star" />
+            <img src={assets.star_dull_icon} className="w-3.5" alt="star" />
             <p className='pl-2'>(122)</p>
           </div>
           <p className='mt-5 text-3xl font-semibold text-[#000000]'>{currency} {productData.price}</p>
@@ -131,7 +125,7 @@ const Product = () => {
 
           <button 
             onClick={handleAddToCart} 
-            className='bg-black text-white font-bold px-9 py-3 -mt-190 text-sm active:bg-gray-700'
+            className='bg-black text-white font-bold px-9 py-3 text-sm active:bg-gray-700'
             disabled={!size}
           >
             ADD TO CART
@@ -171,6 +165,6 @@ const Product = () => {
       )}
     </div>
   );
-}
+};
 
 export default Product;

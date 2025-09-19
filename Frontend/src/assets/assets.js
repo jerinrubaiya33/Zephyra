@@ -117,7 +117,7 @@ export const products = [
         sizes: ["S", "M", "L"],
         date: 1716634345448,
         bestseller: false,
-        discount: 20
+        discount: 20,
     },
     {
         _id: "Tshirt1",
@@ -130,7 +130,7 @@ export const products = [
         sizes: ["M", "L", "XL"],
         date: 1716621345448,
         bestseller: false,
-        discount: 20
+        discount: 20,
     },
     {
         _id: "Top2",

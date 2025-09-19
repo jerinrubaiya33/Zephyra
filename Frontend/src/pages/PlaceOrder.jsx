@@ -141,7 +141,7 @@ const PlaceOrder = () => {
         setCartItems({})
         navigate('/orders')
       } else {
-        throw new Error(data.message || 'Failed to place order')
+        throw new Error(data.message || '3 place order')
       }
     } catch (error) {
       toast.error(error.message)

@@ -19,8 +19,6 @@ const Login = () => {
       autoClose: 3000,
       theme: "light",
       style: {
-        background: '#ffffff',
-        color: '#000000',
         fontFamily: "Indie Flower",
         fontWeight: 'bolder',
         letterSpacing: "0.05em",
@@ -42,13 +40,16 @@ const Login = () => {
       const response = await axios.post(backendUrl + endpoint, payload);
 
       if (response.data.success) {
-        const { token, cartData } = response.data;
+        const { token, cartData, userId } = response.data;
 
         if (token) {
           setToken(token);
           localStorage.setItem('token', token);
 
-          //Save cart to localStorage and context
+          if (userId) {
+            localStorage.setItem('userId', userId);
+          }
+
           if (cartData) {
             localStorage.setItem('cartData', JSON.stringify(cartData));
             setCartItems(cartData);

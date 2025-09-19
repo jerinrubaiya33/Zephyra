@@ -28,7 +28,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        toastStyle={{ borderRadius: '10px', backgroundColor: '#ffffff', color: '#f76097',  fontSize: "18px",  fontFamily: "'Indie Flower', cursive", }}
+        toastStyle={{ borderRadius: '10px', backgroundColor: '#ffffff', color: '#f76097',  fontSize: "18px", fontWeight: 'bolder', fontFamily: "'Indie Flower', cursive", }}
         progressStyle={{ background: '#ffff', height: '10px', borderRadius: '0' }}
       />
       <Navbar />
