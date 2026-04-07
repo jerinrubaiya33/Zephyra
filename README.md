@@ -91,6 +91,9 @@ The application supports multiple secure payment gateways, configured within the
 
   - Inventory Control: Manage stock levels and inventory across all products.
  
+* __Admin Panel : https://zephyra-adminpanel.vercel.app/__
+ 
+ 
 **Security Measures**
 ---
 * __Security is prioritized with multiple layers of protection:__
