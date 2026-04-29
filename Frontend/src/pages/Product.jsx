@@ -1,74 +1,280 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { ShopContext } from '../context/ShopContext';
-import { assets } from '../assets/assets';
-import RelatedProducts from '../components/RelatedProducts';
-import { toast } from 'react-toastify';
+// import React, { useContext, useEffect, useState } from 'react';
+// import { useParams } from 'react-router-dom';
+// import { ShopContext } from '../context/ShopContext';
+// import { assets } from '../assets/assets';
+// import RelatedProducts from '../components/RelatedProducts';
+// import { toast } from 'react-toastify';
+
+// const Product = () => {
+//   const { productId } = useParams();
+//   const { products, currency, addToCart } = useContext(ShopContext);
+//   const [productData, setProductData] = useState(null);
+//   const [image, setImage] = useState('');
+//   const [size, setSize] = useState('');
+//   const [loading, setLoading] = useState(true);
+
+//   const fetchProductData = () => {
+//     try {
+//       setLoading(true);
+//       const foundProduct = products.find(item => String(item._id) === String(productId));
+
+//       if (!foundProduct) {
+//         throw new Error('Product not found');
+//       }
+
+//       setProductData(foundProduct);
+//       setImage(foundProduct?.image?.[0] || '');
+//       setSize(foundProduct?.sizes?.[0] || '');
+//     } catch (error) {
+//       console.error('Error fetching product:', error);
+//       toast.error('Product not found');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (products.length > 0) {
+//       fetchProductData();
+//     }
+//   }, [productId, products]);
+
+//   const handleAddToCart = () => {
+//     if (!size) {
+//       toast.error('Please select a size');
+//       return;
+//     }
+//     addToCart(productData._id, size, 1); // toast handled in context
+//   };
+
+//   if (loading) {
+//     return <div className="flex justify-center items-center h-64">Loading...</div>;
+//   }
+
+//   if (!productData) {
+//     return <div className="flex justify-center items-center h-64">Product not found</div>;
+//   }
+
+//   return (
+//     <div className='border-t-1 border-[#ffd7d7] -mt-16 sm:-mt-20 pt-10 transition-opacity ease-in duration-500 opacity-100'>
+//       {/* Product Data */}
+//       <div className='flex gap-12 sm:gap-12 flex-col sm:flex-row'>
+//         {/* Product Images */}
+//         <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
+//           <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full'>
+//             {productData.image?.length > 0 ? (
+//               productData.image.map((item, index) => (
+//                 <img
+//                   onClick={() => setImage(item)}
+//                   src={item}
+//                   key={index}
+//                   className='w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer'
+//                   alt=""
+//                 />
+//               ))
+//             ) : (
+//               <div className="w-full text-center py-4">No images available</div>
+//             )}
+//           </div>
+
+//           <div className='w-full sm:w[80%]'>
+//             {image ? (
+//               <img className='w-full h-auto' src={image} alt={productData.name} />
+//             ) : (
+//               <div className="w-full h-64 bg-gray-100 flex items-center justify-center">
+//                 No image selected
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* Product Information */}
+//         <div className='flex-1'>
+//           <h1 className='font-bold text-2xl mt-2'>{productData.name}</h1>
+//           <div className='flex items-center gap-1 mt-2'>
+//             <img src={assets.star_icon} className="w-3.5" alt="star" />
+//             <img src={assets.star_icon} className="w-3.5" alt="star" />
+//             <img src={assets.star_icon} className="w-3.5" alt="star" />
+//             <img src={assets.star_icon} className="w-3.5" alt="star" />
+//             <img src={assets.star_dull_icon} className="w-3.5" alt="star" />
+//             <p className='pl-2'>(122)</p>
+//           </div>
+//           {/* Price Section */}
+//           {/* Price Section */}
+// <div className="mt-5">
+//   {productData.discount && productData.discount > 0 ? (
+//     <div className="flex items-center gap-3">
+//       {/* Discounted Price */}
+//       <p className="text-3xl font-semibold text-[#f76097]">
+//         {currency} {(productData.price - (productData.price * productData.discount) / 100).toFixed(2)}
+//       </p>
+//       {/* Original Price */}
+//       <p className="text-lg line-through text-gray-500">
+//         {currency} {Number(productData.price).toFixed(2)}
+//       </p>
+//       {/* Discount Badge */}
+//       <span className="bg-[#f76097] text-white px-2 py-1 text-xs font-bold rounded-full">
+//         -{productData.discount}%
+//       </span>
+//     </div>
+//   ) : (
+//     <p className="text-3xl font-semibold text-[#000000]">
+//       {currency} {Number(productData.price).toFixed(2)}
+//     </p>
+//   )}
+// </div>
+
+
+//           <p className='mt-5 text-black md:w-4/5'>{productData.description}</p>
+
+//           <div className='flex flex-col gap-4 my-8 mt-6'>
+//             <p className='font-semibold'>Select Size:</p>
+//             <div className='flex gap-2 flex-wrap'>
+//               {productData.sizes?.length > 0 ? (
+//                 productData.sizes.map((item, index) => (
+//                   <button
+//                     onClick={() => setSize(item)}
+//                     className={`border border-gray-300 py-2 px-4 text-[#000000] font-bold bg-gray-200 ${item === size ? 'border-pink-400' : ''
+//                       }`}
+//                     key={index}
+//                   >
+//                     {item}
+//                   </button>
+//                 ))
+//               ) : (
+//                 <p className="text-gray-500">No sizes available</p>
+//               )}
+//             </div>
+//           </div>
+
+//           <button
+//             onClick={handleAddToCart}
+//             className='bg-black text-white font-bold px-9 py-3 text-sm active:bg-gray-700'
+//             disabled={!size}
+//           >
+//             ADD TO CART
+//           </button>
+
+//           <hr className='mt-4 sm:w-4/5 border-[#ffd7d7]' />
+//           <div className='text-sm text-black mt-2 flex flex-col gap-1'>
+//             <p>100% Original Product.</p>
+//             <p>Cash on delivery is available on this product.</p>
+//             <p>Easy return and exchange policy within 7 days.</p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Description and review section */}
+//       <div className='mt-20'>
+//         <div className='flex'>
+//           <b className='border px-5 py-3 text-sm border-[#ffa1c4]'>Description</b>
+//           <p className='border px-5 py-3 text-sm border-[#ffa1c4]'>Reviews(122)</p>
+//         </div>
+//         <div className='flex flex-col gap-4 border border-[#ffa1c4] px-6 py-6 text-sm text-black'>
+//           <p>
+//             Elevate your everyday style with this effortlessly chic cotton tee, designed for comfort and versatility.
+//             Crafted from premium-quality, breathable fabric, it features a classic crew neckline and a flattering
+//             regular fit that complements all body types. Whether you're layering it under a jacket or wearing it solo,
+//             this tee is your go-to for a polished, casual look. Perfect for any season, any day.
+//           </p>
+//         </div>
+//       </div>
+
+//       {/* Display related products */}
+//       {productData.category && (
+//         <RelatedProducts
+//           category={productData.category}
+//           subCategory={productData.subCategory}
+//         />
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Product;
+
+
+
+
+
+
+import { useContext, useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { ShopContext } from "../context/ShopContext"
+import { assets } from "../assets/assets"
+import RelatedProducts from "../components/RelatedProducts"
+import { toast } from "react-toastify"
 
 const Product = () => {
-  const { productId } = useParams();
-  const { products, currency, addToCart } = useContext(ShopContext);
-  const [productData, setProductData] = useState(null);
-  const [image, setImage] = useState('');
-  const [size, setSize] = useState('');
-  const [loading, setLoading] = useState(true);
+  const { productId } = useParams()
+  const { products, currency, addToCart } = useContext(ShopContext)
+  const [productData, setProductData] = useState(null)
+  const [image, setImage] = useState("")
+  const [size, setSize] = useState("")
+  const [loading, setLoading] = useState(true)
 
   const fetchProductData = () => {
     try {
-      setLoading(true);
-      const foundProduct = products.find(item => String(item._id) === String(productId)); 
+      setLoading(true)
+      const foundProduct = products.find((item) => String(item._id) === String(productId))
 
       if (!foundProduct) {
-        throw new Error('Product not found');
+        throw new Error("Product not found")
       }
 
-      setProductData(foundProduct);
-      setImage(foundProduct?.image?.[0] || '');
-      setSize(foundProduct?.sizes?.[0] || '');
+      setProductData(foundProduct)
+      setImage(foundProduct?.image?.[0] || "")
+      setSize(foundProduct?.sizes?.[0] || "")
     } catch (error) {
-      console.error('Error fetching product:', error);
-      toast.error('Product not found');
+      console.error("Error fetching product:", error)
+      toast.error("Product not found")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
     if (products.length > 0) {
-      fetchProductData();
+      fetchProductData()
     }
-  }, [productId, products]);
+  }, [productId, products])
 
   const handleAddToCart = () => {
     if (!size) {
-      toast.error('Please select a size');
-      return;
+      toast.error("Please select a size")
+      return
     }
-    addToCart(productData._id, size, 1); // toast handled in context
-  };
+    addToCart(productData._id, size, 1) // toast handled in context
+  }
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64">Loading...</div>;
+    return <div className="flex justify-center items-center h-64">Loading...</div>
   }
 
   if (!productData) {
-    return <div className="flex justify-center items-center h-64">Product not found</div>;
+    return <div className="flex justify-center items-center h-64">Product not found</div>
   }
 
+  // --- Price & Discount Logic ---
+  const price = Number(productData?.price) || 0
+  const discount = Number(productData?.discount) || 0
+  const hasDiscount = discount > 0
+  const discountedPrice = hasDiscount ? (price - (price * discount) / 100).toFixed(2) : price.toFixed(2)
+
   return (
-    <div className='border-t-1 border-[#ffd7d7] -mt-16 sm:-mt-20 pt-10 transition-opacity ease-in duration-500 opacity-100'>
+    <div className="border-t-1 border-[#ffd7d7] -mt-16 sm:-mt-20 pt-10 transition-opacity ease-in duration-500 opacity-100">
       {/* Product Data */}
-      <div className='flex gap-12 sm:gap-12 flex-col sm:flex-row'>
+      <div className="flex gap-12 sm:gap-12 flex-col sm:flex-row">
         {/* Product Images */}
-        <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
-          <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full'>
+        <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row">
+          <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
             {productData.image?.length > 0 ? (
               productData.image.map((item, index) => (
                 <img
                   onClick={() => setImage(item)}
                   src={item}
                   key={index}
-                  className='w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer'
+                  className="w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer"
                   alt=""
                 />
               ))
@@ -77,41 +283,63 @@ const Product = () => {
             )}
           </div>
 
-          <div className='w-full sm:w[80%]'>
+          <div className="w-full sm:w[80%]">
             {image ? (
-              <img className='w-full h-auto' src={image} alt={productData.name} />
+              <img className="w-full h-auto" src={image} alt={productData.name} />
             ) : (
-              <div className="w-full h-64 bg-gray-100 flex items-center justify-center">
-                No image selected
-              </div>
+              <div className="w-full h-64 bg-gray-100 flex items-center justify-center">No image selected</div>
             )}
           </div>
         </div>
 
         {/* Product Information */}
-        <div className='flex-1'>
-          <h1 className='font-bold text-2xl mt-2'>{productData.name}</h1>
-          <div className='flex items-center gap-1 mt-2'>
+        <div className="flex-1">
+          <h1 className="font-bold text-2xl mt-2">{productData.name}</h1>
+          <div className="flex items-center gap-1 mt-2">
             <img src={assets.star_icon} className="w-3.5" alt="star" />
             <img src={assets.star_icon} className="w-3.5" alt="star" />
             <img src={assets.star_icon} className="w-3.5" alt="star" />
             <img src={assets.star_icon} className="w-3.5" alt="star" />
             <img src={assets.star_dull_icon} className="w-3.5" alt="star" />
-            <p className='pl-2'>(122)</p>
+            <p className="pl-2">(122)</p>
           </div>
-          <p className='mt-5 text-3xl font-semibold text-[#000000]'>{currency} {productData.price}</p>
-          <p className='mt-5 text-black md:w-4/5'>{productData.description}</p>
 
-          <div className='flex flex-col gap-4 my-8 mt-6'>
-            <p className='font-semibold'>Select Size:</p>
-            <div className='flex gap-2 flex-wrap'>
+          {/* Price Section */}
+          <div className="mt-5">
+            {hasDiscount ? (
+              <div className="flex items-center gap-3">
+                {/* Discounted Price */}
+                <p className="text-3xl font-semibold text-[#f76097]">
+                  {currency} {discountedPrice}
+                </p>
+
+                {/* Original Price */}
+                <p className="text-lg line-through text-gray-500">
+                  {currency} {price.toFixed(2)}
+                </p>
+
+                {/* Discount Badge */}
+                <span className="bg-[#f76097] text-white px-2 py-1 text-xs font-bold rounded-full">-{discount}%</span>
+              </div>
+            ) : (
+              <p className="text-3xl font-semibold text-[#000000]">
+                {currency} {price.toFixed(2)}
+              </p>
+            )}
+          </div>
+
+          <p className="mt-5 text-black md:w-4/5">{productData.description}</p>
+
+          <div className="flex flex-col gap-4 my-8 mt-6">
+            <p className="font-semibold">Select Size:</p>
+            <div className="flex gap-2 flex-wrap">
               {productData.sizes?.length > 0 ? (
                 productData.sizes.map((item, index) => (
-                  <button 
-                    onClick={() => setSize(item)} 
+                  <button
+                    onClick={() => setSize(item)}
                     className={`border border-gray-300 py-2 px-4 text-[#000000] font-bold bg-gray-200 ${
-                      item === size ? 'border-pink-400' : ''
-                    }`} 
+                      item === size ? "border-pink-400" : ""
+                    }`}
                     key={index}
                   >
                     {item}
@@ -123,16 +351,16 @@ const Product = () => {
             </div>
           </div>
 
-          <button 
-            onClick={handleAddToCart} 
-            className='bg-black text-white font-bold px-9 py-3 text-sm active:bg-gray-700'
+          <button
+            onClick={handleAddToCart}
+            className="bg-black text-white font-bold px-9 py-3 text-sm active:bg-gray-700"
             disabled={!size}
           >
             ADD TO CART
           </button>
 
-          <hr className='mt-4 sm:w-4/5 border-[#ffd7d7]' />
-          <div className='text-sm text-black mt-2 flex flex-col gap-1'>
+          <hr className="mt-4 sm:w-4/5 border-[#ffd7d7]" />
+          <div className="text-sm text-black mt-2 flex flex-col gap-1">
             <p>100% Original Product.</p>
             <p>Cash on delivery is available on this product.</p>
             <p>Easy return and exchange policy within 7 days.</p>
@@ -141,16 +369,16 @@ const Product = () => {
       </div>
 
       {/* Description and review section */}
-      <div className='mt-20'>
-        <div className='flex'>
-          <b className='border px-5 py-3 text-sm border-[#ffa1c4]'>Description</b>
-          <p className='border px-5 py-3 text-sm border-[#ffa1c4]'>Reviews(122)</p>
+      <div className="mt-20">
+        <div className="flex">
+          <b className="border px-5 py-3 text-sm border-[#ffa1c4]">Description</b>
+          <p className="border px-5 py-3 text-sm border-[#ffa1c4]">Reviews(122)</p>
         </div>
-        <div className='flex flex-col gap-4 border border-[#ffa1c4] px-6 py-6 text-sm text-black'>
+        <div className="flex flex-col gap-4 border border-[#ffa1c4] px-6 py-6 text-sm text-black">
           <p>
-            Elevate your everyday style with this effortlessly chic cotton tee, designed for comfort and versatility. 
-            Crafted from premium-quality, breathable fabric, it features a classic crew neckline and a flattering 
-            regular fit that complements all body types. Whether you're layering it under a jacket or wearing it solo, 
+            Elevate your everyday style with this effortlessly chic cotton tee, designed for comfort and versatility.
+            Crafted from premium-quality, breathable fabric, it features a classic crew neckline and a flattering
+            regular fit that complements all body types. Whether you're layering it under a jacket or wearing it solo,
             this tee is your go-to for a polished, casual look. Perfect for any season, any day.
           </p>
         </div>
@@ -158,13 +386,10 @@ const Product = () => {
 
       {/* Display related products */}
       {productData.category && (
-        <RelatedProducts 
-          category={productData.category} 
-          subCategory={productData.subCategory}
-        />
+        <RelatedProducts category={productData.category} subCategory={productData.subCategory} />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Product;
+export default Product

@@ -7,11 +7,29 @@ const List = ({ token }) => {
   const [list, setList] = useState([])
 
   // Fetch all products
+  // const fetchList = async () => {
+  //   try {
+  //     const response = await axios.get(backendUrl + '/api/product/list')
+  //     if (response.data.success) {
+  //       setList(response.data.products)
+  //     } else {
+  //       toast.error(response.data.message)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //     toast.error(error.message)
+  //   }
+  // }
   const fetchList = async () => {
     try {
       const response = await axios.get(backendUrl + '/api/product/list')
       if (response.data.success) {
-        setList(response.data.products)
+        // Add finalPrice to each product
+        const productsWithFinalPrice = response.data.products.map(p => ({
+          ...p,
+          finalPrice: p.price - (p.price * (p.discount || 0) / 100),
+        }));
+        setList(productsWithFinalPrice)
       } else {
         toast.error(response.data.message)
       }
@@ -95,8 +113,12 @@ const List = ({ token }) => {
               <div className="flex md:hidden gap-2 text-gray-500 text-sm">
                 <span>{item.category}</span>
                 <span>
-                  {currency}
-                  {item.price}
+                  {/* {currency}
+                  {item.price} */}
+                  {currency}{item.finalPrice}
+                  {item.discount > 0 && (
+                    <span className="line-through text-gray-400 ml-2">{currency}{item.price}</span>
+                  )}
                 </span>
               </div>
             </div>

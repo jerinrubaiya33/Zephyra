@@ -5,7 +5,7 @@ import axios from "axios";
 import "../index.css";
 
 export const ShopContext = createContext({
-  setShowSearch: () => {},
+  setShowSearch: () => { },
   getCartCount: () => 0,
   getWishlistCount: () => 0,
 });
@@ -46,7 +46,7 @@ const ShopContextProvider = (props) => {
   useEffect(() => {
     try {
       localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
-    } catch {}
+    } catch { }
   }, [wishlistItems]);
 
   // ----------------- WISHLIST API -----------------
@@ -104,7 +104,7 @@ const ShopContextProvider = (props) => {
           if (localItems.length > 0) {
             await syncLocalWishlistToServer(localItems);
           }
-        } catch {}
+        } catch { }
         await fetchWishlistFromServer();
       } else {
         try {
@@ -198,7 +198,7 @@ const ShopContextProvider = (props) => {
 
     setCartItems(cartData);
 
-    // ✅ Dynamic toast message
+    // Dynamic toast message
     const totalAdded = cartData[itemId][size];
     toast(`🛒 You've added ${totalAdded} ${totalAdded === 1 ? "item" : "items"} to the cart`);
 
@@ -262,21 +262,33 @@ const ShopContextProvider = (props) => {
       const item = products.find((p) => p._id === itemId);
       if (!item) continue;
       for (const size in cartItems[itemId]) {
-        total += item.price * cartItems[itemId][size];
+        // Use finalPrice instead of price
+        total += (item.finalPrice || item.price) * cartItems[itemId][size];
       }
     }
     return total;
   };
 
-  // ----------------- PRODUCTS -----------------
   const getProductsData = async () => {
     try {
       const res = await axios.get(`${backendUrl}/api/product/list`);
-      if (res.data.success) setProducts(res.data.products);
+      if (res.data.success) {
+        const productsWithFinalPrice = res.data.products.map(p => {
+          const discount = Number(p.discount) || 0; // <-- default 0 if undefined
+          const finalPrice = p.price - (p.price * discount / 100);
+          return {
+            ...p,
+            discount,
+            finalPrice: Number(finalPrice.toFixed(2)), // optional: fix 2 decimals
+          };
+        });
+        setProducts(productsWithFinalPrice);
+      }
     } catch (err) {
       toast.error(err.message);
     }
   };
+
   useEffect(() => {
     getProductsData();
   }, []);
@@ -286,7 +298,7 @@ const ShopContextProvider = (props) => {
     if (!newToken || !userId) return;
     setToken(newToken);
     localStorage.setItem("token", newToken);
-    localStorage.setItem("userId", userId); // ✅ save userId
+    localStorage.setItem("userId", userId); //save userId
   };
 
   const logout = () => {
@@ -297,7 +309,7 @@ const ShopContextProvider = (props) => {
     localStorage.removeItem("userId");
     localStorage.removeItem("cartItems");
     localStorage.removeItem("wishlistItems");
-    toast("👋 Logged out successfully!", toastOptions());
+    toast("↩ Logged out successfully!", toastOptions());
     navigate("/");
   };
 

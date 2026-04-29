@@ -27,13 +27,7 @@ const ProductItem = ({ id, image, name, price, discount }) => {
           {discount}% OFF
         </div>
       )}
-      {/* 
-      {hasDiscount && (
-        <div className="absolute top-2 left-2 z-10 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded">
-          {discount}% OFF
-        </div>
-      )} */}
-
+      
       {/* Image */}
       <div className="overflow-hidden relative">
         {mainImage ? (
