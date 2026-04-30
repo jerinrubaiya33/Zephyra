@@ -227,7 +227,7 @@ const Navbar = () => {
       >
         <button
           onClick={() => setVisible(false)}
-          className="absolute top-4 right-4 text-2xl"
+          className="absolute top-4 right-8 text-2xl"
         >
           ✕
         </button>
