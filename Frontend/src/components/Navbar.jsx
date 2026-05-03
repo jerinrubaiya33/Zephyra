@@ -173,7 +173,7 @@ const Navbar = () => {
                   navigate("/collection");
               }}
               placeholder="Search..."
-              className="block sm:hidden w-28 border border-[#ffc6db] rounded-full px-2 py-[4px] text-[10px] mt-2.5"
+              className="block sm:hidden w-28 border border-[#ffc6db] focus:outline-none focus:ring-1 focus:ring-[#ffc6db] rounded-full px-2 py-[4px] text-[10px] mt-2.5"
             />
 
             {/* DESKTOP SEARCH (UNCHANGED) */}
@@ -185,7 +185,7 @@ const Navbar = () => {
                   navigate("/collection");
               }}
               placeholder="Search products..."
-              className="hidden sm:block w-48 md:w-70 ml-30 border border-[#ffc6db] rounded-full px-4 py-1.5"
+              className="hidden sm:block w-48 md:w-70 ml-30 border border-[#ffc6db] rounded-full px-4 py-1.5  focus:outline-none focus:ring-1 focus:ring-[#ffc6db]"
             />
 
             {/* LOGO (slightly smaller for tighter height) */}
@@ -200,9 +200,9 @@ const Navbar = () => {
 
           {/* NAV LINKS (DESKTOP) */}
           <ul className="hidden sm:flex gap-6 text-base font-semibold sm:-mt-20 sm:-mb-32 sm:mr-12">
-            <NavLink to="/collection">COLLECTION</NavLink>
-            <NavLink to="/about">ABOUT</NavLink>
-            <NavLink to="/contact">CONTACT</NavLink>
+            <NavLink to="/collection" className="nav-underline">COLLECTION</NavLink>
+            <NavLink to="/about" className="nav-underline">ABOUT</NavLink>
+            <NavLink to="/contact" className="nav-underline">CONTACT</NavLink>
           </ul>
 
           {/* MENU ICON */}

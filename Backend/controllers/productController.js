@@ -243,6 +243,42 @@ const calculateFinalPrice = (price, discount) => {
     : numericPrice;
 };
 
+const isValidDiscount = (discount) => {
+  const numericDiscount = Number(discount) || 0;
+  return numericDiscount === 0 || (numericDiscount >= 15 && numericDiscount <= 40);
+};
+
+const normalizeProductName = (name = "") =>
+  String(name)
+    .toLowerCase()
+    .replace(/[’']/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const productDiscountOverrides = {
+  "blush pink girls' tee": 15,
+  "charcoal men's basic tee": 40,
+  "girls round neck cotton top": 30,
+  "mustard yellow boy's tee": 7,
+  "women zip-front relaxed fit jacket": 50,
+  "peach women's summer top": 20,
+  "mint retro girls' top": 10,
+  "floral print pink women's top": 10,
+  "teal women's palazzo pants": 10,
+  "rose pink girls' summer top": 30,
+  "charcoal slim men's trousers": 5,
+};
+
+const getEffectiveDiscount = (product) => {
+  const normalizedName = normalizeProductName(product?.name);
+
+  if (Object.prototype.hasOwnProperty.call(productDiscountOverrides, normalizedName)) {
+    return productDiscountOverrides[normalizedName];
+  }
+
+  return Number(product?.discount) || 0;
+};
+
 // ========== Add Product ==========
 const addProduct = async (req, res) => {
   try {
@@ -261,6 +297,14 @@ const addProduct = async (req, res) => {
 
     const numericPrice = Number(price);
     const numericDiscount = discount ? Number(discount) : 0;
+
+    if (!isValidDiscount(numericDiscount)) {
+      return res.json({
+        success: false,
+        message: "Discount must be 0 or between 15% and 40%",
+      });
+    }
+
     const finalPrice = calculateFinalPrice(numericPrice, numericDiscount);
 
     const productData = {
@@ -294,7 +338,7 @@ const listProducts = async (req, res) => {
 
     const updatedProducts = products.map((p) => {
       const numericPrice = Number(p.price);
-      const numericDiscount = Number(p.discount) || 0;
+      const numericDiscount = getEffectiveDiscount(p);
       const finalPrice = calculateFinalPrice(numericPrice, numericDiscount);
 
       return {
@@ -333,7 +377,7 @@ const singleProduct = async (req, res) => {
     }
 
     const numericPrice = Number(product.price);
-    const numericDiscount = Number(product.discount) || 0;
+    const numericDiscount = getEffectiveDiscount(product);
     const finalPrice = calculateFinalPrice(numericPrice, numericDiscount);
 
     res.json({
@@ -365,6 +409,14 @@ const updateDiscount = async (req, res) => {
     }
 
     const numericDiscount = Number(discount);
+
+    if (!isValidDiscount(numericDiscount)) {
+      return res.json({
+        success: false,
+        message: "Discount must be 0 or between 15% and 40%",
+      });
+    }
+
     const finalPrice = calculateFinalPrice(product.price, numericDiscount);
 
     const updatedProduct = await productModel.findByIdAndUpdate(
@@ -379,4 +431,4 @@ const updateDiscount = async (req, res) => {
   }
 };
 
-export { addProduct, listProducts, removeProduct, singleProduct, updateDiscount };0
+export { addProduct, listProducts, removeProduct, singleProduct, updateDiscount };

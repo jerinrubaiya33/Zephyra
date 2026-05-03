@@ -221,7 +221,7 @@ export const products = [
         sizes: ["M", "L", "XL"],
         date: 1716621235448,
         bestseller: false,
-        discount: 20
+        discount: 15
     },
     {
         _id: "Trousers2",

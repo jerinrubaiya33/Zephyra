@@ -55,9 +55,34 @@ const Product = () => {
     return <div className="flex justify-center items-center h-64">Product not found</div>
   }
 
+  const normalizeProductName = (name = "") =>
+    String(name)
+      .toLowerCase()
+      .replace(/[’']/g, "'")
+      .replace(/\s+/g, " ")
+      .trim()
+
+  const productDiscountOverrides = {
+    "blush pink girls' tee": 15,
+    "charcoal men's basic tee": 40,
+    "girls round neck cotton top": 30,
+    "mustard yellow boy's tee": 7,
+    "women zip-front relaxed fit jacket": 50,
+    "peach women's summer top": 20,
+    "mint retro girls' top": 10,
+    "floral print pink women's top": 10,
+    "teal women's palazzo pants": 10,
+    "rose pink girls' summer top": 30,
+    "charcoal slim men's trousers": 5,
+  }
+
   // --- Price & Discount Logic ---
   const price = Number(productData?.price) || 0
-  const discount = Number(productData?.discount) || 0
+  const baseDiscount = Number(productData?.discount) || 0
+  const normalizedName = normalizeProductName(productData?.name)
+  const discount = Object.prototype.hasOwnProperty.call(productDiscountOverrides, normalizedName)
+    ? productDiscountOverrides[normalizedName]
+    : baseDiscount
   const hasDiscount = discount > 0
   const discountedPrice = hasDiscount ? (price - (price * discount) / 100).toFixed(2) : price.toFixed(2)
 

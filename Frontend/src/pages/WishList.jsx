@@ -19,6 +19,7 @@ const Wishlist = () => {
               image={product.image}
               name={product.name}
               price={product.price}
+              discount={product.discount}
             />
           ))}
         </div>

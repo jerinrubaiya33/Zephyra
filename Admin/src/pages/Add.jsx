@@ -14,6 +14,7 @@ const Add = ({ token }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [discount, setDiscount] = useState('0');
   const [category, setCategory] = useState(categories[0]);
   const [subCategory, setSubCategory] = useState(subCategories[0]);
   const [bestseller, setBestseller] = useState(false);
@@ -42,10 +43,18 @@ const Add = ({ token }) => {
     e.preventDefault();
 
     try {
+      const numericDiscount = Number(discount) || 0;
+
+      if (numericDiscount !== 0 && (numericDiscount < 15 || numericDiscount > 40)) {
+        toast.error('Discount must be 0 or between 15% and 40%');
+        return;
+      }
+
       const formData = new FormData();
       formData.append("name", name);
       formData.append("description", description);
       formData.append("price", price);
+      formData.append("discount", numericDiscount);
       formData.append("category", category);
       formData.append("subCategory", subCategory);
       formData.append("sizes", JSON.stringify(sizes));
@@ -67,6 +76,7 @@ const Add = ({ token }) => {
         setDescription('');
         setImages([null, null, null, null]);
         setPrice('');
+        setDiscount('0');
         setCategory(categories[0]);
         setSubCategory(subCategories[0]);
         setBestseller(false);
@@ -227,6 +237,21 @@ const Add = ({ token }) => {
             className="w-[180px] px-4 py-2 border border-pink-300 focus:outline-none focus:ring-1 focus:ring-pink-300 text-black placeholder-gray-400 font-[Indie_Flower]"
             required
           />
+        </div>
+
+        <div>
+          <p className="mb-1 text-base font-medium text-black">Discount %</p>
+          <input
+            onChange={(e) => setDiscount(e.target.value)}
+            value={discount}
+            type="number"
+            placeholder="0"
+            min="0"
+            max="40"
+            step="1"
+            className="w-[180px] px-4 py-2 border border-pink-300 focus:outline-none focus:ring-1 focus:ring-pink-300 text-black placeholder-gray-400 font-[Indie_Flower]"
+          />
+          <p className="mt-1 text-xs text-gray-500">Use `0` for no discount, or any value from `15` to `40`.</p>
         </div>
       </div>
 

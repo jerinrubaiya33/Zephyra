@@ -8,6 +8,31 @@ a.active hr {
 *{
   font-family: "Indie Flower", cursive;
 }
+
+.nav-underline {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 1px;
+}
+
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #f76097;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.nav-underline:hover::after,
+.nav-underline.active::after {
+  transform: scaleX(1);
+}
+
 .indie-flower-regular {
   font-family: "Indie Flower", cursive;
   font-weight: bolder;

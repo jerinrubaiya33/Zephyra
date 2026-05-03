@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 
 const List = ({ token }) => {
   const [list, setList] = useState([])
+  const [discountValues, setDiscountValues] = useState({})
 
   // Fetch all products
   // const fetchList = async () => {
@@ -30,6 +31,12 @@ const List = ({ token }) => {
           finalPrice: p.price - (p.price * (p.discount || 0) / 100),
         }));
         setList(productsWithFinalPrice)
+        setDiscountValues(
+          productsWithFinalPrice.reduce((acc, product) => {
+            acc[product._id] = String(product.discount || 0)
+            return acc
+          }, {})
+        )
       } else {
         toast.error(response.data.message)
       }
@@ -64,6 +71,37 @@ const List = ({ token }) => {
     }
   }
 
+  const updateDiscount = async (id) => {
+    try {
+      const discount = Number(discountValues[id] || 0)
+
+      if (discount !== 0 && (discount < 15 || discount > 40)) {
+        toast.error('Discount must be 0 or between 15% and 40%')
+        return
+      }
+
+      const response = await axios.post(
+        backendUrl + '/api/product/update-discount',
+        { id, discount },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      if (response.data.success) {
+        toast.success('Discount updated')
+        await fetchList()
+      } else {
+        toast.error(response.data.message)
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
+
   // Load products on mount
   useEffect(() => {
     fetchList()
@@ -74,11 +112,12 @@ const List = ({ token }) => {
       <p className="mb-2 text-2xl font-medium">All Products List</p>
       <div className="flex flex-col gap-2">
         {/* Table Header (Desktop only) */}
-        <div className="hidden md:grid grid-cols-[80px_3fr_1.5fr_1fr_80px] items-center py-2 px-5 border border-pink-200 bg-gray-50 text-sm font-semibold">
+        <div className="hidden md:grid grid-cols-[80px_2.2fr_1.2fr_1fr_1.4fr_80px] items-center py-2 px-5 border border-pink-200 bg-gray-50 text-sm font-semibold">
           <b>Image</b>
           <b>Name</b>
           <b>Category</b>
           <b>Price</b>
+          <b>Discount</b>
           <b className="text-center">Action</b>
         </div>
 
@@ -88,7 +127,7 @@ const List = ({ token }) => {
             key={index}
             className="
               flex md:grid
-              md:grid-cols-[80px_3fr_1.5fr_1fr_80px]
+              md:grid-cols-[80px_2.2fr_1.2fr_1fr_1.4fr_80px]
               items-center
               justify-between
               gap-2
@@ -113,13 +152,34 @@ const List = ({ token }) => {
               <div className="flex md:hidden gap-2 text-gray-500 text-sm">
                 <span>{item.category}</span>
                 <span>
-                  {/* {currency}
-                  {item.price} */}
                   {currency}{item.finalPrice}
                   {item.discount > 0 && (
                     <span className="line-through text-gray-400 ml-2">{currency}{item.price}</span>
                   )}
                 </span>
+              </div>
+              <div className="mt-2 flex md:hidden items-center gap-2">
+                <select
+                  value={discountValues[item._id] ?? '0'}
+                  onChange={(e) =>
+                    setDiscountValues((prev) => ({ ...prev, [item._id]: e.target.value }))
+                  }
+                  className="border border-pink-300 px-2 py-1 text-sm"
+                >
+                  <option value="0">No discount</option>
+                  <option value="15">15%</option>
+                  <option value="20">20%</option>
+                  <option value="25">25%</option>
+                  <option value="30">30%</option>
+                  <option value="35">35%</option>
+                  <option value="40">40%</option>
+                </select>
+                <button
+                  onClick={() => updateDiscount(item._id)}
+                  className="border border-pink-300 px-3 py-1 text-xs font-semibold text-pink-500"
+                >
+                  Save
+                </button>
               </div>
             </div>
 
@@ -139,6 +199,30 @@ const List = ({ token }) => {
               {currency}
               {item.price}
             </p>
+
+            <div className="hidden md:flex items-center gap-2">
+              <select
+                value={discountValues[item._id] ?? '0'}
+                onChange={(e) =>
+                  setDiscountValues((prev) => ({ ...prev, [item._id]: e.target.value }))
+                }
+                className="border border-pink-300 px-2 py-1 text-sm"
+              >
+                <option value="0">No discount</option>
+                <option value="15">15%</option>
+                <option value="20">20%</option>
+                <option value="25">25%</option>
+                <option value="30">30%</option>
+                <option value="35">35%</option>
+                <option value="40">40%</option>
+              </select>
+              <button
+                onClick={() => updateDiscount(item._id)}
+                className="border border-pink-300 px-3 py-1 text-xs font-semibold text-pink-500"
+              >
+                Save
+              </button>
+            </div>
 
             {/* Desktop-only Delete */}
             <button

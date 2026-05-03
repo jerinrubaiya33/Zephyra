@@ -10,6 +10,27 @@ export const ShopContext = createContext({
   getWishlistCount: () => 0,
 });
 
+const normalizeProductName = (name = "") =>
+  String(name)
+    .toLowerCase()
+    .replace(/[’']/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const productDiscountOverrides = {
+  "blush pink girls' tee": 15,
+  "charcoal men's basic tee": 40,
+  "girls round neck cotton top": 30,
+  "mustard yellow boy's tee": 7,
+  "women zip-front relaxed fit jacket": 50,
+  "peach women's summer top": 20,
+  "mint retro girls' top": 10,
+  "floral print pink women's top": 10,
+  "teal women's palazzo pants": 10,
+  "rose pink girls' summer top": 30,
+  "charcoal slim men's trousers": 5,
+};
+
 const ShopContextProvider = (props) => {
   const currency = "$";
   const delivery_fee = 10;
@@ -274,7 +295,10 @@ const ShopContextProvider = (props) => {
       const res = await axios.get(`${backendUrl}/api/product/list`);
       if (res.data.success) {
         const productsWithFinalPrice = res.data.products.map(p => {
-          const discount = Number(p.discount) || 0; // <-- default 0 if undefined
+          const normalizedName = normalizeProductName(p.name);
+          const discount = Object.prototype.hasOwnProperty.call(productDiscountOverrides, normalizedName)
+            ? productDiscountOverrides[normalizedName]
+            : Number(p.discount) || 0;
           const finalPrice = p.price - (p.price * discount / 100);
           return {
             ...p,
