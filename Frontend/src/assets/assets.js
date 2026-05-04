@@ -81,8 +81,11 @@ import Trouser from './Trouser.png'
 import Top from './women_top.png'
 import Kid from './kid_summer.png'
 import social_left from './social_left.png'
+import social_right from './social_right.png'
+
 
 export const assets = {
+    social_right,
     social_left,
     Kid,
     Top,
