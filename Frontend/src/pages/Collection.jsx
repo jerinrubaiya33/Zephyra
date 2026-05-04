@@ -20,17 +20,24 @@ const Collection = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const categoryParam = queryParams.get('category');
+    const subCategoryParam = queryParams.get('subCategory');
 
     if (categoryParam) {
       const cat = categoryParam.toLowerCase();
-      // If it matches a main category
       if (['men', 'women', 'kids'].includes(cat)) {
         setCategory([cat.charAt(0).toUpperCase() + cat.slice(1)]);
       }
-      // If it matches a subcategory
-      else if (['topwear', 'bottomwear', 'winterwear'].includes(cat)) {
-        setSubCategory([cat.charAt(0).toUpperCase() + cat.slice(1)]);
+    } else {
+      setCategory([]);
+    }
+
+    if (subCategoryParam) {
+      const sub = subCategoryParam.toLowerCase();
+      if (['topwear', 'bottomwear', 'winterwear'].includes(sub)) {
+        setSubCategory([sub.charAt(0).toUpperCase() + sub.slice(1)]);
       }
+    } else {
+      setSubCategory([]);
     }
   }, [location.search]);
 

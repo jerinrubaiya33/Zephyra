@@ -8,6 +8,8 @@ import NewsletterBox from '../components/NewsletterBox';
 import LatestCollection from '../components/LatestCollection';
 import Categories from '../components/Categories';
 import Banner from '../components/Banner';
+import SummerEssential from '../components/SummerEssential';
+import SocialShowcase from '../components/SocialShowcase';
 import Wallpaper from '../assets/Wallpaper.png';
 
 const Home = () => {
@@ -39,6 +41,8 @@ const Home = () => {
         scrollToCategories={scrollToCategories}
       />
 
+      <SummerEssential />
+
       <div ref={latestCollectionRef}>
         <LatestCollection />
       </div>
@@ -52,6 +56,7 @@ const Home = () => {
       </div>
 
       <Banner />
+      <SocialShowcase />
       <OurPolicy />
       <NewsletterBox />
     </div>

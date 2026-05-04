@@ -53,8 +53,6 @@ import p_img49 from './p_img49.png'
 import p_img50 from './p_img50.png'
 import p_img51 from './p_img51.png'
 import p_img52 from './p_img52.png'
-
-
 import logo from './logo.png'
 import hero_img from './hero_img.png'
 import cart_icon from './cart_icon.png'
@@ -78,8 +76,18 @@ import man from './man.png'
 import kid from './kid.png'
 import Banner from './Banner.png'
 import Wallpaper from './Wallpaper.png'
+import Shirt from './man_shirt.png'
+import Trouser from './Trouser.png'
+import Top from './women_top.png'
+import Kid from './kid_summer.png'
+import social_left from './social_left.png'
 
 export const assets = {
+    social_left,
+    Kid,
+    Top,
+    Trouser,
+    Shirt,
     Wallpaper,
     Banner,
     kid,
@@ -513,7 +521,7 @@ export const products = [
         name: "Men Round Neck Pure Cotton T-shirt",
         description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
         price: 250,
-        discount: 20,   // 👈 20% OFF
+        discount: 20,   // 20% OFF
         image: [p_img32],
         category: "Men",
         subCategory: "Topwear",
@@ -525,7 +533,7 @@ export const products = [
         _id: "aaabg",
         name: "Girls Round Neck Cotton Top",
         price: 230,
-        discount: 15,   // 👈 15% OFF
+        discount: 15,   // 15% OFF
         image: [p_img33],
         category: "Kids",
         subCategory: "Topwear",
@@ -537,7 +545,7 @@ export const products = [
         _id: "aaabh",
         name: "Women Round Neck Cotton Top",
         price: 260,
-        discount: 10,   // 👈 10% OFF
+        discount: 10,   // 10% OFF
         image: [p_img34],
         category: "Women",
         subCategory: "Topwear",
@@ -549,7 +557,7 @@ export const products = [
         _id: "aaabi",
         name: "Women Zip-Front Relaxed Fit Jacket",
         price: 240,
-        discount: 25,   // 👈 25% OFF
+        discount: 25,   // 25% OFF
         image: [p_img35],
         category: "Women",
         subCategory: "Winterwear",
@@ -561,7 +569,7 @@ export const products = [
         _id: "aaabj",
         name: "Women Zip-Front Relaxed Fit Jacket",
         price: 270,
-        discount: 30,   // 👈 30% OFF
+        discount: 30,   // 30% OFF
         image: [p_img36],
         category: "Women",
         subCategory: "Winterwear",
