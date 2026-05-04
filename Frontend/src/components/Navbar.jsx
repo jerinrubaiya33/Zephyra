@@ -48,7 +48,10 @@ const Navbar = () => {
   return (
     <div className="sticky top-0 z-50 w-screen sm:mb-15 mb-14 sm:-ml-27.5 -ml-4">
       {/* TOP BAR */}
-      <div className="absolute top-0 left-0 right-0 bg-[#f76097] z-50">
+      {/* //#72873A khaki*/}
+      {/* //#9C7E63 Brown*/}
+      {/* //#4a4a4a Gray*/}
+      <div className="absolute top-0 left-0 right-0 bg-[#9C7E63] z-50">
         <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 sm:px-8 py-1">
           <p className="hidden sm:block text-xs sm:text-sm md:text-[16px] font-extrabold uppercase tracking-[0.3em] text-white ml-18">
             Your Style, Your Sale –{" "}

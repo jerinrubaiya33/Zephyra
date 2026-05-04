@@ -46,7 +46,7 @@ const ProductItem = ({ id, image, name, price, discount }) => {
 
         {/* Discount Badge */}
         {hasDiscount && (
-          <div className="absolute top-2 left-2 z-10 rounded-full bg-[#f76097] px-2.5 py-1 text-xs font-bold text-white shadow-md">
+          <div className="absolute top-2 left-2 z-10 rounded-full bg-[#9C7E63] px-2.5 py-1 text-xs font-bold text-white shadow-md">
             {numericDiscount}%
           </div>
         )}

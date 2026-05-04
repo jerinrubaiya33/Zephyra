@@ -144,7 +144,7 @@ const Product = () => {
                 </p>
 
                 {/* Discount Badge */}
-                <span className="bg-[#f76097] text-white px-2 py-1 text-xs font-bold rounded-full">-{discount}%</span>
+                <span className="bg-[#9C7E63] text-white px-2 py-1 text-xs font-bold rounded-full">-{discount}%</span>
               </div>
             ) : (
               <p className="text-3xl font-semibold text-[#000000]">
