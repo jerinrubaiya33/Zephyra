@@ -21,7 +21,7 @@ const Banner = () => {
         </h2>
         <button
           onClick={() => navigate('/collection?category=Winterwear')}
-          className="px-6 py-3 bg-black text-white font-semibold shadow-md hover:bg-gray-800 transition"
+          className="bg-[#9C7E63] text-white px-6 py-2 md:px-10 md:py-3 text-xs md:text-sm font-bold uppercase tracking-widest hover:bg-[#55493f] hover:text-white transition-colors duration-300 shadow-xl"
         >
           Shop Now
         </button>

@@ -47,7 +47,7 @@ const Categories = () => {
               <h2 className="text-white text-3xl sm:text-4xl md:text-7xl font-bold tracking-tight uppercase mb-4 md:mb-6 drop-shadow-lg">
                 {section.name}
               </h2>
-              <button className="bg-white text-black px-6 py-2 md:px-10 md:py-3 text-xs md:text-sm font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors duration-300 shadow-xl">
+              <button className="bg-[#9C7E63] text-white px-6 py-2 md:px-10 md:py-3 text-xs md:text-sm font-bold uppercase tracking-widest hover:bg-[#55493f] hover:text-white transition-colors duration-300 shadow-xl">
                 Shop Now
               </button>
             </div>
