@@ -26,7 +26,7 @@ const SocialShowcase = () => {
             <img
               src={womenMood}
               alt="Style story"
-              className="h-[280px] w-full object-cover transition-transform duration-500 group-hover:scale-105 sm:h-[520px]"
+              className="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-105 sm:h-[520px]"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
@@ -65,7 +65,7 @@ const SocialShowcase = () => {
             <img
               src={womenTop}
               alt="Latest videos"
-              className="h-[280px] w-full object-cover transition-transform duration-500 group-hover:scale-105 sm:h-[520px]"
+              className="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-105 sm:h-[520px]"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/5 to-transparent" />
