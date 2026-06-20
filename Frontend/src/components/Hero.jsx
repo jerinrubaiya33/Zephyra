@@ -6,7 +6,7 @@ const Hero = ({ scrollToBestSeller, scrollToLatest }) => {
     return (
         <div className='flex flex-col sm:flex-row border border-[#ffc6db] 
                 w-full sm:w-[1320px] sm:h-[510px] 
-                mx-auto ml-0 sm:-ml-22 px-4 sm:px-0 -mt-14'>
+                mx-auto ml-0 sm:-ml-22 px-4 sm:px-0 mt-4'>
 
             {/* HERO LEFT SIDE */}
             <div className='w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0'>
