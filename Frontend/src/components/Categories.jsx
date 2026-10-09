@@ -50,7 +50,9 @@ const PromoCountdownBanner = () => {
   ];
 
   return (
-    <section className="mx-4 mt-4 mb-6 overflow-hidden border border-[#d9c9bc] bg-[linear-gradient(135deg,#f8f1e8_0%,#f3e2d5_45%,#e7d0c1_100%)] shadow-[0_18px_60px_rgba(88,54,39,0.12)] sm:mx-0 md:mt-12 md:mb-14 ">
+    <section className="mx-4 mt-4 mb-6 ml-50 overflow-hidden border border-[#d9c9bc]
+     bg-[linear-gradient(135deg,#f8f1e8_0%,#f3e2d5_45%,#e7d0c1_100%)] shadow-[0_18px_60px_rgba(88,54,39,0.12)] 
+     sm:mx-0 md:mt-12 md:mb-14 ">
       <div className="grid md:grid-cols-[1.2fr_0.9fr]">
         <div className="bg-[#8f6f61] px-6 py-8 text-white sm:px-8 md:px-12 md:py-12">
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#f76097]">
@@ -138,7 +140,7 @@ const Categories = () => {
           >
             {/* BANNER */}
             <div
-              className="w-full h-[300px -ml-0 sm:ml-0 md:h-[600px] relative cursor-pointer overflow-hidden group"
+              className="w-full h-[300px -ml-0 sm:-ml-6 md:h-[600px] relative cursor-pointer overflow-hidden group"
               onClick={() => navigate(section.link)}
             >
               <img

@@ -6,7 +6,7 @@ const Banner = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative w-screen h-[310px] sm:h-[500px] lg:h-[570px] overflow-hidden -ml-4 sm:-ml-27.5 ">
+    <div className="relative w-screen h-[310px] sm:h-[500px] lg:h-[570px] overflow-hidden -ml-4 sm:-ml-34 ">
       {/* Background Image */}
       <img
         src={assets.Banner}

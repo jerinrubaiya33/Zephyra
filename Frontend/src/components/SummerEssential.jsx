@@ -33,7 +33,7 @@ const SummerEssential = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="w-screen sm:-ml-27.5 -ml-4 -mb-12 sm:mb-5 sm:mt-10 mt-5  px-0 sm:px-4 lg:px-6 py-12 sm:py-16 overflow-x-hidden">
+    <section className="w-screen sm:-ml-35 -ml-4 -mb-12 sm:mb-5 sm:mt-10 mt-5  px-0 sm:px-4 lg:px-6 py-12 sm:py-16 overflow-x-hidden">
       <div className="mx-auto w-full max-w-[1900px]">
         <div className="mb-8 text-center sm:mb-10">
           <div className="text-xl">
